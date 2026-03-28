@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { ContactSection } from "./components/ContactSection";
+import DarlingChatbot from "./components/DarlingChatbot";
 import { EnquiryModal } from "./components/EnquiryModal";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
@@ -48,6 +49,7 @@ function HomePage() {
         onClose={() => setEnquiryOpen(false)}
         selectedPackage={selectedPkg}
       />
+      <DarlingChatbot />
     </div>
   );
 }

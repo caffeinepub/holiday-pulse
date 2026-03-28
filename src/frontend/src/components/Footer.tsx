@@ -30,18 +30,18 @@ export function Footer() {
                 <Phone className="w-3.5 h-3.5" /> +91-9160393773
               </a>
               <a
-                href="mailto:info@holidaypulse.co.in"
+                href="mailto:info@holidaypulse.ind"
                 className="flex items-center gap-2 text-white/80 text-sm hover:text-white"
               >
-                <Mail className="w-3.5 h-3.5" /> info@holidaypulse.co.in
+                <Mail className="w-3.5 h-3.5" /> info@holidaypulse.ind
               </a>
               <a
-                href="https://www.holidaypulse.co.in"
+                href="https://www.holidaypulse.ind"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-white/80 text-sm hover:text-white"
               >
-                <Globe className="w-3.5 h-3.5" /> www.holidaypulse.co.in
+                <Globe className="w-3.5 h-3.5" /> www.holidaypulse.ind
               </a>
             </div>
           </div>

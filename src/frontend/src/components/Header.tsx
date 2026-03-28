@@ -7,6 +7,12 @@ interface HeaderProps {
   onAdminClick: () => void;
 }
 
+interface NavLink {
+  label: string;
+  href: string;
+  dest: string | null;
+}
+
 export function Header({ onAdminClick }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -17,12 +23,21 @@ export function Header({ onAdminClick }: HeaderProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
-    { label: "Packages", href: "#packages" },
-    { label: "Activities", href: "#activities" },
-    { label: "Destinations", href: "#destinations" },
-    { label: "Contact", href: "#contact" },
+  const navLinks: NavLink[] = [
+    { label: "Andaman", href: "#packages", dest: "andaman" },
+    { label: "Lakshadweep", href: "#packages", dest: "lakshadweep" },
+    { label: "North-East", href: "#packages", dest: "northeast" },
+    { label: "Contact", href: "#contact", dest: null },
   ];
+
+  const handleNavClick = (link: NavLink) => {
+    if (link.dest) {
+      window.dispatchEvent(
+        new CustomEvent("selectDestination", { detail: link.dest }),
+      );
+    }
+    setMenuOpen(false);
+  };
 
   return (
     <header
@@ -55,6 +70,7 @@ export function Header({ onAdminClick }: HeaderProps) {
                 key={link.label}
                 href={link.href}
                 data-ocid="header.link"
+                onClick={() => handleNavClick(link)}
                 className="text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors"
               >
                 {link.label}
@@ -113,7 +129,7 @@ export function Header({ onAdminClick }: HeaderProps) {
                 <a
                   key={link.label}
                   href={link.href}
-                  onClick={() => setMenuOpen(false)}
+                  onClick={() => handleNavClick(link)}
                   className="text-sm font-medium text-gray-700 hover:text-teal-600 py-1"
                 >
                   {link.label}

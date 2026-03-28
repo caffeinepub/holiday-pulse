@@ -1,32 +1,30 @@
-# Holiday Pulse Andaman Packages
+# Holiday Pulse
 
 ## Current State
-New project. No existing application files.
+- Full travel website with 3 destinations: Andaman, Lakshadweep, North-East India
+- 3 packages per destination
+- Floating chatbot (ChatbotWidget.tsx) with limited language support (6 languages)
+- Admin panel at /admin
+- Hero section, package cards, enquiry modal with WhatsApp integration
+- Footer with www.holidaypulse.ind branding
 
 ## Requested Changes (Diff)
 
 ### Add
-- Travel packages website for Holiday Pulse showcasing Andaman & Nicobar Islands trip packages
-- Three packages: 3D/4N (budget), 4D/5N (mid-range), 5D/6N (premium)
-- Each package: name, duration, day-by-day itinerary, inclusions, exclusions, highlights/activities, pricing, Book Now/Enquire CTA
-- Hero section with 3D animated ocean/wave scene using Three.js + React Three Fiber
-- Brand details: Holiday Pulse, contact numbers, email, offices, destination coverage
-- Admin management panel to add/edit/remove packages (requires authentication)
-- Contact/enquiry section with WhatsApp links
+- Rename chatbot to "DARLING" (displayed as bot name in chat UI)
+- Expand language support to all major world languages (30+ languages covering all major language families)
+- Add latitude/longitude coordinates for each destination displayed in package detail or destination info
+- Language selector with full world language list in chatbot UI
 
 ### Modify
-- N/A
+- ChatbotWidget.tsx: rename to DARLING, expand languages to world-wide coverage (English, Hindi, Bengali, Tamil, Telugu, Malayalam, Kannada, Marathi, Gujarati, Punjabi, Urdu, Arabic, French, Spanish, Portuguese, German, Italian, Russian, Chinese Simplified, Chinese Traditional, Japanese, Korean, Thai, Vietnamese, Indonesian, Malay, Swahili, Turkish, Dutch, Polish, Greek, Hebrew, Persian/Farsi, and more)
+- packages.ts: add lat/lng coordinates for each destination
+- PackageCard or PackagesSection: display coordinates for destinations
 
 ### Remove
-- N/A
+- Nothing removed
 
 ## Implementation Plan
-1. Backend: Package data model (id, name, duration, days, nights, itinerary[], inclusions[], exclusions[], highlights[], price, category, isActive)
-2. Backend: CRUD operations for packages with admin role protection
-3. Backend: Enquiry submission storage
-4. Frontend: Hero section with Three.js animated ocean waves
-5. Frontend: Package listing with 3 sections (budget/mid/premium)
-6. Frontend: Package detail cards with full itinerary, inclusions, exclusions
-7. Frontend: Book Now / Enquire modal with WhatsApp redirect
-8. Frontend: Admin management panel (login-gated) to create/edit/delete packages
-9. Frontend: Footer with company details, offices, contact info
+1. Update ChatbotWidget.tsx - rename bot to DARLING, add 40+ world languages with translations for common travel queries
+2. Update packages.ts - add lat/lng for Andaman (11.7401° N, 92.6586° E), Lakshadweep (10.5667° N, 72.6417° E), North-East India (26.2006° N, 92.9376° E)
+3. Display coordinates in destination sections with a nice map pin icon

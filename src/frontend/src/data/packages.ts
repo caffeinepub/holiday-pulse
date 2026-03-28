@@ -316,3 +316,559 @@ export const staticPackages: PackageData[] = [
     ],
   },
 ];
+
+export const lakshadweepPackages: PackageData[] = [
+  {
+    id: 10,
+    name: "Lakshadweep Getaway",
+    tagline: "Crystal lagoons & coral paradise",
+    category: "Budget",
+    duration: "3D / 4N",
+    days: 3,
+    nights: 4,
+    price: 24999,
+    priceLabel: "starting from",
+    image: "/assets/generated/lakshadweep-budget.dim_800x500.jpg",
+    isActive: true,
+    highlights: [
+      "Agatti Island Lagoon",
+      "Snorkeling",
+      "Glass-Bottom Boat",
+      "Beach Walk",
+      "Sunset Cruise",
+      "Coral Reef Viewing",
+    ],
+    inclusions: [
+      "3 nights accommodation (twin sharing)",
+      "All transfers by boat & road",
+      "Daily breakfast + dinner",
+      "Snorkeling equipment",
+      "Entry permits",
+      "Arrival assistance",
+    ],
+    exclusions: [
+      "Airfare to Agatti",
+      "Personal expenses",
+      "Scuba diving (optional add-on)",
+      "GST",
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "Arrival at Agatti + Lagoon Welcome",
+        description:
+          "Fly into Agatti Island airport. Greeted by turquoise lagoons unlike anything you've seen. Check-in to beach resort. Evening lagoon walk and welcome dinner.",
+        activities: [
+          "Airport pickup",
+          "Resort check-in",
+          "Lagoon walk",
+          "Welcome dinner",
+        ],
+      },
+      {
+        day: 2,
+        title: "Bangaram Island Day Trip",
+        description:
+          "Speedboat to uninhabited Bangaram Island — pristine beaches, coral gardens, crystal water. Snorkeling session over the reef. Glass-bottom boat ride to view marine life.",
+        activities: [
+          "Bangaram Island boat",
+          "Snorkeling",
+          "Glass-bottom boat",
+          "Beach picnic",
+        ],
+      },
+      {
+        day: 3,
+        title: "Water Sports & Local Village",
+        description:
+          "Morning water sports — kayaking, paddleboarding. Visit a local Lakshadweep village and learn about island culture. Shopping for local crafts.",
+        activities: [
+          "Kayaking",
+          "Paddleboarding",
+          "Village visit",
+          "Craft shopping",
+        ],
+      },
+      {
+        day: 4,
+        title: "Departure",
+        description:
+          "Morning at leisure. Checkout and transfer to Agatti airport for departure.",
+        activities: ["Morning leisure", "Hotel checkout", "Airport drop"],
+      },
+    ],
+  },
+  {
+    id: 11,
+    name: "Lakshadweep Explorer",
+    tagline: "Multi-island coral adventure",
+    category: "Explorer",
+    duration: "5D / 6N",
+    days: 5,
+    nights: 6,
+    price: 39999,
+    priceLabel: "starting from",
+    image: "/assets/generated/lakshadweep-explorer.dim_800x500.jpg",
+    isActive: true,
+    highlights: [
+      "Kavaratti Island",
+      "Minicoy Island",
+      "Scuba Diving",
+      "Dolphin Spotting",
+      "Traditional Laccadive Dance",
+      "Lighthouse Visit",
+    ],
+    inclusions: [
+      "5 nights accommodation (twin sharing)",
+      "Inter-island boat transfers",
+      "All meals (breakfast + lunch + dinner)",
+      "1 scuba dive session",
+      "Entry permits for all islands",
+      "Guided tours",
+    ],
+    exclusions: [
+      "Airfare to Agatti",
+      "Personal expenses",
+      "Additional water sports",
+      "GST",
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "Arrival + Agatti Island",
+        description: "Fly into Agatti. Transfer to resort. Evening beach walk.",
+        activities: ["Arrival", "Resort check-in", "Beach walk"],
+      },
+      {
+        day: 2,
+        title: "Kavaratti Island — Capital of Lakshadweep",
+        description:
+          "Boat to Kavaratti. Visit the Ujra Mosque, Marine Aquarium. Snorkeling in Kavaratti lagoon.",
+        activities: [
+          "Kavaratti boat",
+          "Mosque visit",
+          "Marine Aquarium",
+          "Lagoon snorkeling",
+        ],
+      },
+      {
+        day: 3,
+        title: "Scuba Diving & Coral Reefs",
+        description:
+          "Certified scuba diving session over pristine coral reefs. Afternoon dolphin spotting cruise.",
+        activities: [
+          "Scuba diving",
+          "Coral reef exploration",
+          "Dolphin cruise",
+        ],
+      },
+      {
+        day: 4,
+        title: "Minicoy Island — Southernmost Atoll",
+        description:
+          "Full day at Minicoy. Visit the 100-year-old lighthouse. Witness traditional Lava dance performance. Tuna fishing village tour.",
+        activities: [
+          "Minicoy boat",
+          "Lighthouse visit",
+          "Lava dance",
+          "Fishing village",
+        ],
+      },
+      {
+        day: 5,
+        title: "Leisure + Water Sports",
+        description:
+          "Morning water sports — jet ski, parasailing. Afternoon souvenir shopping.",
+        activities: ["Jet skiing", "Parasailing", "Shopping"],
+      },
+      {
+        day: 6,
+        title: "Departure",
+        description: "Checkout and transfer to airport.",
+        activities: ["Checkout", "Airport drop"],
+      },
+    ],
+  },
+  {
+    id: 12,
+    name: "Lakshadweep Premium",
+    tagline: "Luxury private island odyssey",
+    category: "Premium",
+    duration: "7D / 8N",
+    days: 7,
+    nights: 8,
+    price: 58999,
+    priceLabel: "starting from",
+    image: "/assets/generated/lakshadweep-premium.dim_800x500.jpg",
+    isActive: true,
+    highlights: [
+      "Private Boat Charter",
+      "All 5 Major Islands",
+      "Sunset Dinner Cruise",
+      "Night Snorkeling",
+      "Kayaking",
+      "Luxury Resort Stay",
+    ],
+    inclusions: [
+      "7 nights luxury accommodation",
+      "Private boat charter for island hopping",
+      "All meals + evening snacks",
+      "All water sports unlimited",
+      "Night snorkeling gear",
+      "Sunset dinner cruise",
+      "Entry permits",
+    ],
+    exclusions: ["Airfare", "Personal expenses", "GST"],
+    itinerary: [
+      {
+        day: 1,
+        title: "Arrival — VIP Welcome",
+        description:
+          "Fly into Agatti. Private transfer. Luxury resort check-in with welcome drink.",
+        activities: [
+          "VIP airport pickup",
+          "Luxury resort check-in",
+          "Welcome cocktail",
+        ],
+      },
+      {
+        day: 2,
+        title: "Agatti — Lagoon Safari",
+        description:
+          "Private lagoon safari by glass-bottom boat. Exclusive snorkeling over untouched coral.",
+        activities: ["Lagoon safari", "Private snorkeling", "Beach dining"],
+      },
+      {
+        day: 3,
+        title: "Bangaram — Private Island Day",
+        description:
+          "Private day on Bangaram Island. Exclusive beach, water sports unlimited.",
+        activities: [
+          "Private boat to Bangaram",
+          "Unlimited water sports",
+          "Beach BBQ",
+        ],
+      },
+      {
+        day: 4,
+        title: "Kavaratti — Culture & Dive",
+        description:
+          "Kavaratti Island guided tour. Scuba diving with expert instructor.",
+        activities: ["Kavaratti tour", "Scuba diving", "Cultural show"],
+      },
+      {
+        day: 5,
+        title: "Minicoy — Lighthouse & Dance",
+        description:
+          "Minicoy Island with lighthouse and traditional performances.",
+        activities: ["Lighthouse visit", "Lava dance", "Seafood dinner"],
+      },
+      {
+        day: 6,
+        title: "Night Snorkeling + Sunset Cruise",
+        description:
+          "Guided night snorkeling over bioluminescent waters. Sunset dinner cruise.",
+        activities: ["Night snorkeling", "Sunset dinner cruise"],
+      },
+      {
+        day: 7,
+        title: "Leisure + Spa",
+        description: "Morning spa treatment. Afternoon leisure on beach.",
+        activities: ["Spa session", "Beach relaxation", "Shopping"],
+      },
+      {
+        day: 8,
+        title: "Departure",
+        description: "Late checkout. Transfer to airport.",
+        activities: ["Late checkout", "Airport drop"],
+      },
+    ],
+  },
+];
+
+export const northeastPackages: PackageData[] = [
+  {
+    id: 20,
+    name: "NE Sampler",
+    tagline: "Meghalaya mists & Assam tea trails",
+    category: "Budget",
+    duration: "4D / 5N",
+    days: 4,
+    nights: 5,
+    price: 19999,
+    priceLabel: "starting from",
+    image: "/assets/generated/northeast-budget.dim_800x500.jpg",
+    isActive: true,
+    highlights: [
+      "Living Root Bridges",
+      "Cherrapunji Waterfalls",
+      "Shillong Peak",
+      "Kaziranga Day Trip",
+      "Tea Garden Visit",
+      "Don Bosco Museum",
+    ],
+    inclusions: [
+      "4 nights accommodation (twin sharing)",
+      "All road transfers",
+      "Daily breakfast",
+      "Sightseeing as per itinerary",
+      "Arrival assistance",
+    ],
+    exclusions: [
+      "Airfare to Guwahati",
+      "Lunch & dinner",
+      "Entry fees",
+      "Personal expenses",
+      "GST",
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "Arrival Guwahati + Shillong",
+        description:
+          "Fly into Guwahati. Drive to Shillong (3 hrs, Scotland of the East). Visit Don Bosco Museum. Check-in.",
+        activities: [
+          "Guwahati pickup",
+          "Drive to Shillong",
+          "Don Bosco Museum",
+          "Hotel check-in",
+        ],
+      },
+      {
+        day: 2,
+        title: "Cherrapunji — Waterfalls & Caves",
+        description:
+          "Day trip to Cherrapunji (one of wettest places on Earth). Visit Nohkalikai Falls, Mawsmai Cave, Seven Sisters Falls viewpoint.",
+        activities: [
+          "Nohkalikai Falls",
+          "Mawsmai Cave",
+          "Seven Sisters viewpoint",
+          "Local lunch",
+        ],
+      },
+      {
+        day: 3,
+        title: "Living Root Bridges Trek",
+        description:
+          "Trek to the famous Double Decker Living Root Bridge at Nongriat village. Natural wonder created by Khasi tribe over centuries.",
+        activities: [
+          "Nongriat trek",
+          "Double Decker Root Bridge",
+          "Swimming pool visit",
+          "Village walk",
+        ],
+      },
+      {
+        day: 4,
+        title: "Kaziranga Day Trip",
+        description:
+          "Drive to Kaziranga National Park. Elephant safari at dawn to spot one-horned rhinoceros. Assam tea garden visit.",
+        activities: [
+          "Elephant safari",
+          "Rhino spotting",
+          "Tea garden visit",
+          "Tea tasting",
+        ],
+      },
+      {
+        day: 5,
+        title: "Departure from Guwahati",
+        description: "Drive back to Guwahati Airport for departure.",
+        activities: ["Drive to Guwahati", "Airport drop", "Departure"],
+      },
+    ],
+  },
+  {
+    id: 21,
+    name: "NE Odyssey",
+    tagline: "Meghalaya peaks & Sikkim monasteries",
+    category: "Explorer",
+    duration: "6D / 7N",
+    days: 6,
+    nights: 7,
+    price: 32999,
+    priceLabel: "starting from",
+    image: "/assets/generated/northeast-explorer.dim_800x500.jpg",
+    isActive: true,
+    highlights: [
+      "Tsomgo Lake",
+      "Rumtek Monastery",
+      "Gangtok Cable Car",
+      "Living Root Bridges",
+      "Dawki River",
+      "Yumthang Valley",
+    ],
+    inclusions: [
+      "6 nights accommodation (twin sharing)",
+      "All transfers by AC vehicle",
+      "Daily breakfast + dinner",
+      "Sightseeing & entry fees",
+      "Permits",
+    ],
+    exclusions: ["Airfare", "Lunch", "Personal expenses", "GST"],
+    itinerary: [
+      {
+        day: 1,
+        title: "Arrival Bagdogra + Gangtok",
+        description:
+          "Fly to Bagdogra. Drive to Gangtok, capital of Sikkim. Evening MG Road walk.",
+        activities: ["Bagdogra pickup", "Drive to Gangtok", "MG Road walk"],
+      },
+      {
+        day: 2,
+        title: "Tsomgo Lake + Baba Mandir",
+        description:
+          "Tsomgo (Changu) Lake at 12,400 ft altitude. Sacred Baba Mandir at Nathu La border. Yak rides.",
+        activities: [
+          "Tsomgo Lake",
+          "Baba Mandir",
+          "Yak ride",
+          "Nathu La border view",
+        ],
+      },
+      {
+        day: 3,
+        title: "Rumtek Monastery + Gangtok Local",
+        description:
+          "Rumtek Monastery — one of largest Tibetan Buddhist monasteries outside Tibet. Namgyal Institute, Flower Exhibition Centre, cable car.",
+        activities: [
+          "Rumtek Monastery",
+          "Cable car ride",
+          "Enchey Monastery",
+          "Do-Drul Stupa",
+        ],
+      },
+      {
+        day: 4,
+        title: "Drive to Shillong",
+        description:
+          "Drive from Gangtok to Shillong via Guwahati. Overnight in Shillong.",
+        activities: ["Scenic drive", "Tea break", "Shillong check-in"],
+      },
+      {
+        day: 5,
+        title: "Dawki + Living Root Bridges",
+        description:
+          "Boat ride on crystal-clear Dawki (Umngot) River on India-Bangladesh border. Trek to Living Root Bridge.",
+        activities: ["Dawki river boat", "Border view", "Root bridge trek"],
+      },
+      {
+        day: 6,
+        title: "Mawlynnong + Mawsmai Cave",
+        description:
+          "Visit Mawlynnong — Asia's cleanest village. Mawsmai Cave. Return to Guwahati.",
+        activities: ["Mawlynnong village", "Mawsmai Cave", "Drive to Guwahati"],
+      },
+      {
+        day: 7,
+        title: "Departure",
+        description: "Airport drop and departure.",
+        activities: ["Airport drop", "Departure"],
+      },
+    ],
+  },
+  {
+    id: 22,
+    name: "NE Grand Tour",
+    tagline: "Ultimate 4-state North-East expedition",
+    category: "Premium",
+    duration: "9D / 10N",
+    days: 9,
+    nights: 10,
+    price: 52999,
+    priceLabel: "starting from",
+    image: "/assets/generated/northeast-premium.dim_800x500.jpg",
+    isActive: true,
+    highlights: [
+      "Tawang Monastery",
+      "Kaziranga Safari",
+      "Yumthang Valley",
+      "Ziro Valley",
+      "Majuli Island",
+      "Arunachal Tribal Culture",
+    ],
+    inclusions: [
+      "9 nights premium accommodation",
+      "All transfers (AC + tempo traveller)",
+      "All meals",
+      "All sightseeing & permits",
+      "Kaziranga jeep safari",
+      "Expert local guide",
+    ],
+    exclusions: ["Airfare", "Personal expenses", "GST"],
+    itinerary: [
+      {
+        day: 1,
+        title: "Arrival Guwahati + Kaziranga",
+        description: "Arrive Guwahati. Drive to Kaziranga. Evening briefing.",
+        activities: ["Guwahati arrival", "Drive to Kaziranga"],
+      },
+      {
+        day: 2,
+        title: "Kaziranga — Jeep & Elephant Safari",
+        description:
+          "Dawn jeep safari in Central Range. Elephant safari at sunrise. One-horned rhino, wild elephants, tigers.",
+        activities: ["Jeep safari", "Elephant safari", "Rhino spotting"],
+      },
+      {
+        day: 3,
+        title: "Majuli Island — World's Largest River Island",
+        description:
+          "Drive to Jorhat. Boat to Majuli. Explore Vaishnavite satras (monasteries).",
+        activities: ["Boat to Majuli", "Satra visit", "Tribal mask making"],
+      },
+      {
+        day: 4,
+        title: "Arrive Itanagar (Arunachal Pradesh)",
+        description:
+          "Drive to Itanagar. Visit Ita Fort, Namdapha National Park entry point.",
+        activities: ["Ita Fort", "Tribal museum", "Arunachal check-in"],
+      },
+      {
+        day: 5,
+        title: "Ziro Valley — UNESCO Heritage",
+        description:
+          "Ziro Valley — UNESCO World Heritage tentative site. Apatani tribal villages.",
+        activities: ["Ziro valley", "Apatani village", "Tribal culture"],
+      },
+      {
+        day: 6,
+        title: "Tawang — Monks & Mountains",
+        description:
+          "Long scenic drive to Tawang via Sela Pass (13,700 ft). Sela Lake, Paradise Lake.",
+        activities: ["Sela Pass", "Sela Lake", "Nuranang Falls"],
+      },
+      {
+        day: 7,
+        title: "Tawang Monastery",
+        description:
+          "Tawang Monastery — 17th century, one of world's largest Buddhist monasteries. War Memorial.",
+        activities: ["Tawang Monastery", "War Memorial", "Local market"],
+      },
+      {
+        day: 8,
+        title: "Drive to Gangtok (Sikkim)",
+        description: "Long drive to Gangtok via Guwahati. Overnight Gangtok.",
+        activities: ["Scenic mountain drive", "Gangtok check-in"],
+      },
+      {
+        day: 9,
+        title: "Yumthang Valley — Valley of Flowers",
+        description:
+          "Yumthang Valley at 11,800 ft — called Valley of Flowers. Rhododendrons, hot springs.",
+        activities: [
+          "Yumthang Valley",
+          "Zero Point",
+          "Hot springs",
+          "Rhododendron garden",
+        ],
+      },
+      {
+        day: 10,
+        title: "Departure",
+        description: "Drive to Bagdogra/Guwahati airport. Departure.",
+        activities: ["Airport transfer", "Departure"],
+      },
+    ],
+  },
+];
