@@ -192,7 +192,7 @@ const wizardSteps: WizardStep[] = [
         id: "surprise",
         emoji: "🎲",
         label: "Surprise Me!",
-        description: "Let DARLING pick for you!",
+        description: "Let YATRIK pick for you!",
       },
     ],
   },

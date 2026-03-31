@@ -10,7 +10,7 @@ import { useRef, useState } from "react";
 import { BackgroundMusic } from "./components/BackgroundMusic";
 import { ClientsSection } from "./components/ClientsSection";
 import { ContactSection } from "./components/ContactSection";
-import DarlingChatbot from "./components/DarlingChatbot";
+import YatrikChatbot from "./components/DarlingChatbot";
 import { EnquiryModal } from "./components/EnquiryModal";
 import { FlashSaleBanner } from "./components/FlashSaleBanner";
 import { FlashSaleSection } from "./components/FlashSaleSection";
@@ -89,8 +89,8 @@ function HomePage() {
       />
       {/* Floating ambient music player — bottom-left */}
       <BackgroundMusic />
-      {/* DARLING chatbot — bottom-right */}
-      <DarlingChatbot />
+      {/* YATRIK chatbot — bottom-right */}
+      <YatrikChatbot />
     </div>
   );
 }

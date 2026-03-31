@@ -30,7 +30,7 @@ export function HeroScene({ onExploreClick }: { onExploreClick: () => void }) {
         {[
           { label: "🏝️ 3 Island Destinations", delay: 0.8 },
           { label: "🚢 Cruise Packages Available", delay: 1.0 },
-          { label: "💬 24/7 DARLING Support", delay: 1.2 },
+          { label: "💬 24/7 YATRIK Support", delay: 1.2 },
         ].map(({ label, delay }) => (
           <motion.div
             key={label}

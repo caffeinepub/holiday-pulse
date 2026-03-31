@@ -13,82 +13,9 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
 // ── Language definitions ──────────────────────────────────────────────────
-type LangCode =
-  | "en"
-  | "hi"
-  | "bn"
-  | "ta"
-  | "te"
-  | "ml"
-  | "kn"
-  | "mr"
-  | "gu"
-  | "pa"
-  | "ur"
-  | "ar"
-  | "fr"
-  | "es"
-  | "pt"
-  | "de"
-  | "it"
-  | "ru"
-  | "zh"
-  | "zh-TW"
-  | "ja"
-  | "ko"
-  | "th"
-  | "vi"
-  | "id"
-  | "ms"
-  | "sw"
-  | "tr"
-  | "nl"
-  | "pl"
-  | "el"
-  | "he"
-  | "fa"
-  | "ro"
-  | "hu"
-  | "cs"
-  | "sk"
-  | "uk"
-  | "no"
-  | "sv"
-  | "da"
-  | "fi"
-  | "af"
-  | "am"
-  | "az"
-  | "be"
-  | "bg"
-  | "bs"
-  | "ca"
-  | "cy"
-  | "eo"
-  | "et"
-  | "eu"
-  | "gl"
-  | "hr"
-  | "hy"
-  | "is"
-  | "ka"
-  | "kk"
-  | "km"
-  | "lo"
-  | "lt"
-  | "lv"
-  | "mk"
-  | "mn"
-  | "my"
-  | "ne"
-  | "si"
-  | "sl"
-  | "sq"
-  | "sr"
-  | "tl"
-  | "uz"
-  | "yo"
-  | "zu";
+
+// ── Language definitions ────────────────────────────────────────────────
+type LangCode = string;
 
 interface LangOption {
   code: LangCode;
@@ -98,6 +25,7 @@ interface LangOption {
 }
 
 const LANG_OPTIONS: LangOption[] = [
+  // ── Indian Languages ────────────────────────────────────────────────────
   { code: "en", label: "English", native: "English", speechCode: "en-IN" },
   { code: "hi", label: "Hindi", native: "हिन्दी", speechCode: "hi-IN" },
   { code: "bn", label: "Bengali", native: "বাংলা", speechCode: "bn-IN" },
@@ -109,13 +37,115 @@ const LANG_OPTIONS: LangOption[] = [
   { code: "gu", label: "Gujarati", native: "ગુજરાતી", speechCode: "gu-IN" },
   { code: "pa", label: "Punjabi", native: "ਪੰਜਾਬੀ", speechCode: "pa-IN" },
   { code: "ur", label: "Urdu", native: "اردو", speechCode: "ur-PK" },
+  { code: "as", label: "Assamese", native: "অসমীয়া", speechCode: "as-IN" },
+  { code: "or", label: "Odia", native: "ଓଡ଼ିଆ", speechCode: "or-IN" },
+  { code: "sd", label: "Sindhi", native: "سنڌي", speechCode: "sd-PK" },
+  { code: "ne", label: "Nepali", native: "नेपाली", speechCode: "ne-NP" },
+  { code: "si", label: "Sinhala", native: "සිංහල", speechCode: "si-LK" },
+  { code: "sa", label: "Sanskrit", native: "संस्कृत", speechCode: "sa-IN" },
+  { code: "mai", label: "Maithili", native: "मैथिली", speechCode: "hi-IN" },
+  { code: "doi", label: "Dogri", native: "डोगरी", speechCode: "hi-IN" },
+  { code: "gom", label: "Konkani", native: "कोंकणी", speechCode: "mr-IN" },
+  {
+    code: "mni-Mtei",
+    label: "Meitei (Manipuri)",
+    native: "ꯃꯤꯇꯩꯂꯣꯟ",
+    speechCode: "en-IN",
+  },
+  { code: "bho", label: "Bhojpuri", native: "भोजपुरी", speechCode: "hi-IN" },
+  { code: "lus", label: "Mizo", native: "Mizo ṭawng", speechCode: "en-IN" },
+  // ── Middle East & Central Asia ────────────────────────────────────────
   { code: "ar", label: "Arabic", native: "العربية", speechCode: "ar-SA" },
+  { code: "fa", label: "Persian", native: "فارسی", speechCode: "fa-IR" },
+  { code: "he", label: "Hebrew", native: "עברית", speechCode: "he-IL" },
+  { code: "ps", label: "Pashto", native: "پښتو", speechCode: "ps-AF" },
+  {
+    code: "ku",
+    label: "Kurdish (Kurmanji)",
+    native: "Kurdî",
+    speechCode: "ku",
+  },
+  { code: "ckb", label: "Kurdish (Sorani)", native: "کوردی", speechCode: "ku" },
+  { code: "ug", label: "Uyghur", native: "ئۇيغۇرچە", speechCode: "ug" },
+  {
+    code: "az",
+    label: "Azerbaijani",
+    native: "Azərbaycan",
+    speechCode: "az-AZ",
+  },
+  { code: "kk", label: "Kazakh", native: "Қазақша", speechCode: "kk-KZ" },
+  { code: "ky", label: "Kyrgyz", native: "Кыргызча", speechCode: "ky-KG" },
+  { code: "tg", label: "Tajik", native: "Тоҷикӣ", speechCode: "tg-TJ" },
+  { code: "tk", label: "Turkmen", native: "Türkmençe", speechCode: "tk-TM" },
+  { code: "uz", label: "Uzbek", native: "O'zbek", speechCode: "uz-UZ" },
+  // ── European Languages ────────────────────────────────────────────────
   { code: "fr", label: "French", native: "Français", speechCode: "fr-FR" },
   { code: "es", label: "Spanish", native: "Español", speechCode: "es-ES" },
   { code: "pt", label: "Portuguese", native: "Português", speechCode: "pt-BR" },
   { code: "de", label: "German", native: "Deutsch", speechCode: "de-DE" },
   { code: "it", label: "Italian", native: "Italiano", speechCode: "it-IT" },
   { code: "ru", label: "Russian", native: "Русский", speechCode: "ru-RU" },
+  { code: "nl", label: "Dutch", native: "Nederlands", speechCode: "nl-NL" },
+  { code: "pl", label: "Polish", native: "Polski", speechCode: "pl-PL" },
+  { code: "el", label: "Greek", native: "Ελληνικά", speechCode: "el-GR" },
+  { code: "ro", label: "Romanian", native: "Română", speechCode: "ro-RO" },
+  { code: "hu", label: "Hungarian", native: "Magyar", speechCode: "hu-HU" },
+  { code: "cs", label: "Czech", native: "Čeština", speechCode: "cs-CZ" },
+  { code: "sk", label: "Slovak", native: "Slovenčina", speechCode: "sk-SK" },
+  { code: "uk", label: "Ukrainian", native: "Українська", speechCode: "uk-UA" },
+  { code: "no", label: "Norwegian", native: "Norsk", speechCode: "no-NO" },
+  { code: "sv", label: "Swedish", native: "Svenska", speechCode: "sv-SE" },
+  { code: "da", label: "Danish", native: "Dansk", speechCode: "da-DK" },
+  { code: "fi", label: "Finnish", native: "Suomi", speechCode: "fi-FI" },
+  {
+    code: "be",
+    label: "Belarusian",
+    native: "Беларуская",
+    speechCode: "be-BY",
+  },
+  { code: "bg", label: "Bulgarian", native: "Български", speechCode: "bg-BG" },
+  { code: "hr", label: "Croatian", native: "Hrvatski", speechCode: "hr-HR" },
+  { code: "bs", label: "Bosnian", native: "Bosanski", speechCode: "bs-BA" },
+  { code: "sr", label: "Serbian", native: "Српски", speechCode: "sr-RS" },
+  {
+    code: "sl",
+    label: "Slovenian",
+    native: "Slovenščina",
+    speechCode: "sl-SI",
+  },
+  {
+    code: "mk",
+    label: "Macedonian",
+    native: "Македонски",
+    speechCode: "mk-MK",
+  },
+  { code: "sq", label: "Albanian", native: "Shqip", speechCode: "sq-AL" },
+  { code: "lt", label: "Lithuanian", native: "Lietuvių", speechCode: "lt-LT" },
+  { code: "lv", label: "Latvian", native: "Latviešu", speechCode: "lv-LV" },
+  { code: "et", label: "Estonian", native: "Eesti", speechCode: "et-EE" },
+  { code: "is", label: "Icelandic", native: "Íslenska", speechCode: "is-IS" },
+  { code: "ga", label: "Irish", native: "Gaeilge", speechCode: "ga-IE" },
+  { code: "cy", label: "Welsh", native: "Cymraeg", speechCode: "cy-GB" },
+  { code: "ca", label: "Catalan", native: "Català", speechCode: "ca-ES" },
+  { code: "eu", label: "Basque", native: "Euskara", speechCode: "eu-ES" },
+  { code: "gl", label: "Galician", native: "Galego", speechCode: "gl-ES" },
+  { code: "co", label: "Corsican", native: "Corsu", speechCode: "it-IT" },
+  { code: "eo", label: "Esperanto", native: "Esperanto", speechCode: "eo" },
+  { code: "la", label: "Latin", native: "Latina", speechCode: "la" },
+  { code: "hy", label: "Armenian", native: "Հայերեն", speechCode: "hy-AM" },
+  { code: "ka", label: "Georgian", native: "ქართული", speechCode: "ka-GE" },
+  { code: "mt", label: "Maltese", native: "Malti", speechCode: "mt-MT" },
+  {
+    code: "lb",
+    label: "Luxembourgish",
+    native: "Lëtzebuergesch",
+    speechCode: "lb",
+  },
+  { code: "gd", label: "Scots Gaelic", native: "Gàidhlig", speechCode: "gd" },
+  { code: "fy", label: "Frisian", native: "Frysk", speechCode: "nl-NL" },
+  { code: "yi", label: "Yiddish", native: "ייִדיש", speechCode: "yi" },
+  { code: "tt", label: "Tatar", native: "Татар", speechCode: "tt-RU" },
+  // ── East & Southeast Asian ────────────────────────────────────────────
   {
     code: "zh",
     label: "Chinese (Simplified)",
@@ -144,74 +174,79 @@ const LANG_OPTIONS: LangOption[] = [
     speechCode: "id-ID",
   },
   { code: "ms", label: "Malay", native: "Bahasa Melayu", speechCode: "ms-MY" },
-  { code: "sw", label: "Swahili", native: "Kiswahili", speechCode: "sw-KE" },
-  { code: "tr", label: "Turkish", native: "Türkçe", speechCode: "tr-TR" },
-  { code: "nl", label: "Dutch", native: "Nederlands", speechCode: "nl-NL" },
-  { code: "pl", label: "Polish", native: "Polski", speechCode: "pl-PL" },
-  { code: "el", label: "Greek", native: "Ελληνικά", speechCode: "el-GR" },
-  { code: "he", label: "Hebrew", native: "עברית", speechCode: "he-IL" },
-  { code: "fa", label: "Persian", native: "فارسی", speechCode: "fa-IR" },
-  { code: "ro", label: "Romanian", native: "Română", speechCode: "ro-RO" },
-  { code: "hu", label: "Hungarian", native: "Magyar", speechCode: "hu-HU" },
-  { code: "cs", label: "Czech", native: "Čeština", speechCode: "cs-CZ" },
-  { code: "sk", label: "Slovak", native: "Slovenčina", speechCode: "sk-SK" },
-  { code: "uk", label: "Ukrainian", native: "Українська", speechCode: "uk-UA" },
-  { code: "no", label: "Norwegian", native: "Norsk", speechCode: "nb-NO" },
-  { code: "sv", label: "Swedish", native: "Svenska", speechCode: "sv-SE" },
-  { code: "da", label: "Danish", native: "Dansk", speechCode: "da-DK" },
-  { code: "fi", label: "Finnish", native: "Suomi", speechCode: "fi-FI" },
-  { code: "af", label: "Afrikaans", native: "Afrikaans", speechCode: "af-ZA" },
-  { code: "am", label: "Amharic", native: "አማርኛ", speechCode: "am-ET" },
-  {
-    code: "az",
-    label: "Azerbaijani",
-    native: "Azərbaycan",
-    speechCode: "az-AZ",
-  },
-  {
-    code: "be",
-    label: "Belarusian",
-    native: "Беларуская",
-    speechCode: "be-BY",
-  },
-  { code: "bg", label: "Bulgarian", native: "Български", speechCode: "bg-BG" },
-  { code: "bs", label: "Bosnian", native: "Bosanski", speechCode: "bs-BA" },
-  { code: "ca", label: "Catalan", native: "Català", speechCode: "ca-ES" },
-  { code: "cy", label: "Welsh", native: "Cymraeg", speechCode: "cy-GB" },
-  { code: "et", label: "Estonian", native: "Eesti", speechCode: "et-EE" },
-  { code: "eu", label: "Basque", native: "Euskara", speechCode: "eu-ES" },
-  { code: "gl", label: "Galician", native: "Galego", speechCode: "gl-ES" },
-  { code: "hr", label: "Croatian", native: "Hrvatski", speechCode: "hr-HR" },
-  { code: "hy", label: "Armenian", native: "Հայերեն", speechCode: "hy-AM" },
-  { code: "is", label: "Icelandic", native: "Íslenska", speechCode: "is-IS" },
-  { code: "ka", label: "Georgian", native: "ქართული", speechCode: "ka-GE" },
-  { code: "kk", label: "Kazakh", native: "Қазақша", speechCode: "kk-KZ" },
+  { code: "tl", label: "Filipino", native: "Filipino", speechCode: "tl-PH" },
   { code: "km", label: "Khmer", native: "ភាសាខ្មែរ", speechCode: "km-KH" },
-  { code: "lo", label: "Lao", native: "ລາວ", speechCode: "lo-LA" },
-  { code: "lt", label: "Lithuanian", native: "Lietuvių", speechCode: "lt-LT" },
-  { code: "lv", label: "Latvian", native: "Latviešu", speechCode: "lv-LV" },
+  { code: "lo", label: "Lao", native: "ພາສາລາວ", speechCode: "lo-LA" },
   {
-    code: "mk",
-    label: "Macedonian",
-    native: "Македонски",
-    speechCode: "mk-MK",
+    code: "my",
+    label: "Myanmar (Burmese)",
+    native: "မြန်မာဘာသာ",
+    speechCode: "my-MM",
   },
   { code: "mn", label: "Mongolian", native: "Монгол", speechCode: "mn-MN" },
-  { code: "my", label: "Burmese", native: "မြန်မာ", speechCode: "my-MM" },
-  { code: "ne", label: "Nepali", native: "नेपाली", speechCode: "ne-NP" },
-  { code: "si", label: "Sinhala", native: "සිංහල", speechCode: "si-LK" },
+  { code: "jv", label: "Javanese", native: "Basa Jawa", speechCode: "jv-ID" },
+  { code: "su", label: "Sundanese", native: "Basa Sunda", speechCode: "su-ID" },
+  { code: "ceb", label: "Cebuano", native: "Cebuano", speechCode: "tl-PH" },
+  { code: "ilo", label: "Ilocano", native: "Ilocano", speechCode: "tl-PH" },
+  { code: "hmn", label: "Hmong", native: "Hmong", speechCode: "hmn" },
+  // ── South & Central American ──────────────────────────────────────────
+  { code: "gn", label: "Guarani", native: "Avañe'ẽ", speechCode: "es-PY" },
+  { code: "qu", label: "Quechua", native: "Runasimi", speechCode: "qu" },
+  { code: "ay", label: "Aymara", native: "Aymar", speechCode: "ay" },
   {
-    code: "sl",
-    label: "Slovenian",
-    native: "Slovenščina",
-    speechCode: "sl-SI",
+    code: "ht",
+    label: "Haitian Creole",
+    native: "Kreyòl ayisyen",
+    speechCode: "ht",
   },
-  { code: "sq", label: "Albanian", native: "Shqip", speechCode: "sq-AL" },
-  { code: "sr", label: "Serbian", native: "Српски", speechCode: "sr-RS" },
-  { code: "tl", label: "Filipino", native: "Filipino", speechCode: "fil-PH" },
-  { code: "uz", label: "Uzbek", native: "O'zbek", speechCode: "uz-UZ" },
+  // ── African Languages ──────────────────────────────────────────────────
+  { code: "sw", label: "Swahili", native: "Kiswahili", speechCode: "sw-KE" },
+  { code: "am", label: "Amharic", native: "አማርኛ", speechCode: "am-ET" },
   { code: "yo", label: "Yoruba", native: "Yorùbá", speechCode: "yo-NG" },
+  { code: "ig", label: "Igbo", native: "Igbo", speechCode: "ig-NG" },
+  { code: "ha", label: "Hausa", native: "Hausa", speechCode: "ha-NG" },
   { code: "zu", label: "Zulu", native: "isiZulu", speechCode: "zu-ZA" },
+  { code: "xh", label: "Xhosa", native: "isiXhosa", speechCode: "xh-ZA" },
+  { code: "af", label: "Afrikaans", native: "Afrikaans", speechCode: "af-ZA" },
+  { code: "sn", label: "Shona", native: "chiShona", speechCode: "sn" },
+  { code: "st", label: "Sesotho", native: "Sesotho", speechCode: "st-ZA" },
+  {
+    code: "nso",
+    label: "Sepedi",
+    native: "Sesotho sa Leboa",
+    speechCode: "nso",
+  },
+  { code: "so", label: "Somali", native: "Soomaali", speechCode: "so-SO" },
+  {
+    code: "ny",
+    label: "Nyanja (Chichewa)",
+    native: "Chichewa",
+    speechCode: "ny",
+  },
+  { code: "mg", label: "Malagasy", native: "Malagasy", speechCode: "mg" },
+  { code: "rw", label: "Kinyarwanda", native: "Kinyarwanda", speechCode: "rw" },
+  { code: "ln", label: "Lingala", native: "Lingála", speechCode: "ln" },
+  { code: "lg", label: "Luganda", native: "Luganda", speechCode: "lg" },
+  { code: "ee", label: "Ewe", native: "Eʋegbe", speechCode: "ee" },
+  { code: "om", label: "Oromo", native: "Afaan Oromoo", speechCode: "om-ET" },
+  { code: "ti", label: "Tigrinya", native: "ትግርኛ", speechCode: "ti-ET" },
+  { code: "ss", label: "Swati", native: "SiSwati", speechCode: "ss" },
+  { code: "ts", label: "Tsonga", native: "Xitsonga", speechCode: "ts" },
+  { code: "ak", label: "Twi (Akan)", native: "Twi", speechCode: "ak" },
+  { code: "bm", label: "Bambara", native: "Bamanankan", speechCode: "bm" },
+  { code: "kri", label: "Krio", native: "Krio", speechCode: "en-SL" },
+  // ── Pacific ─────────────────────────────────────────────────────────
+  { code: "mi", label: "Maori", native: "te Reo Māori", speechCode: "mi-NZ" },
+  { code: "sm", label: "Samoan", native: "Gagana Samoa", speechCode: "sm" },
+  {
+    code: "haw",
+    label: "Hawaiian",
+    native: "ʻŌlelo Hawaiʻi",
+    speechCode: "haw",
+  },
+  // ── Other ────────────────────────────────────────────────────────────
+  { code: "tr", label: "Turkish", native: "Türkçe", speechCode: "tr-TR" },
+  { code: "dv", label: "Dhivehi", native: "ދިވެހި", speechCode: "dv" },
 ];
 
 // ── Destination coordinates ───────────────────────────────────────────────
@@ -224,22 +259,22 @@ const DESTINATIONS = [
 // ── Responses (English + key languages) ──────────────────────────────────
 const RESPONSES: Record<string, Record<string, string>> = {
   greeting: {
-    en: "Hi! I'm DARLING 💫, your Holiday Pulse travel guide. Ask me about Andaman, Lakshadweep or North-East India tours!",
-    hi: "नमस्ते! मैं DARLING 💫 हूं, आपका Holiday Pulse ट्रैवल गाइड। अंडमान, लक्षद्वीप या पूर्वोत्तर भारत के बारे में पूछें!",
-    bn: "হ্যালো! আমি DARLING 💫, আপনার Holiday Pulse ট্র্যাভেল গাইড। আন্দামান, লাক্ষাদ্বীপ বা উত্তর-পূর্ব ভারত সম্পর্কে জিজ্ঞেস করুন!",
-    ta: "வணக்கம்! நான் DARLING 💫, உங்கள் Holiday Pulse பயண வழிகாட்டி. அந்தமான், லட்சத்தீவு அல்லது வடகிழக்கு இந்தியா பற்றி கேளுங்கள்!",
-    te: "హలో! నేను DARLING 💫, మీ Holiday Pulse ట్రావెల్ గైడ్. అండమాన్, లక్షద్వీప్ లేదా ఈశాన్య భారతదేశం గురించి అడగండి!",
-    ar: "مرحباً! أنا DARLING 💫، مرشدك السياحي في Holiday Pulse. اسألني عن جزر أندامان أو لكشادويب أو شمال شرق الهند!",
-    fr: "Bonjour! Je suis DARLING 💫, votre guide de voyage Holiday Pulse. Posez-moi des questions sur Andaman, Lakshadweep ou le Nord-Est de l'Inde!",
-    es: "¡Hola! Soy DARLING 💫, tu guía de viaje Holiday Pulse. ¡Pregúntame sobre Andaman, Lakshadweep o el Noreste de India!",
-    zh: "你好！我是DARLING 💫，您的Holiday Pulse旅行向导。请询问关于安达曼、拉克沙群岛或印度东北部的旅游！",
-    ja: "こんにちは！私はDARLING 💫、Holiday Pulseのトラベルガイドです。アンダマン、ラクシャドゥイープ、またはインド北東部についてお聞きください！",
-    ko: "안녕하세요! 저는 DARLING 💫, Holiday Pulse 여행 가이드입니다. 안다만, 락샤드위프, 또는 인도 북동부에 대해 물어보세요!",
-    de: "Hallo! Ich bin DARLING 💫, Ihr Holiday Pulse Reiseführer. Fragen Sie mich über Andaman, Lakshadweep oder Nordostindien!",
-    ru: "Привет! Я DARLING 💫, ваш путеводитель Holiday Pulse. Спросите меня об Андаманских островах, Лакшадвипе или Северо-Восточной Индии!",
-    pt: "Olá! Sou DARLING 💫, seu guia de viagem Holiday Pulse. Pergunte-me sobre Andaman, Lakshadweep ou o Nordeste da Índia!",
+    en: "Hi! I'm YATRIK 💫, your Holiday Pulse travel guide. Ask me about Andaman, Lakshadweep or North-East India tours!",
+    hi: "नमस्ते! मैं YATRIK 💫 हूं, आपका Holiday Pulse ट्रैवल गाइड। अंडमान, लक्षद्वीप या पूर्वोत्तर भारत के बारे में पूछें!",
+    bn: "হ্যালো! আমি YATRIK 💫, আপনার Holiday Pulse ট্র্যাভেল গাইড। আন্দামান, লাক্ষাদ্বীপ বা উত্তর-পূর্ব ভারত সম্পর্কে জিজ্ঞেস করুন!",
+    ta: "வணக்கம்! நான் YATRIK 💫, உங்கள் Holiday Pulse பயண வழிகாட்டி. அந்தமான், லட்சத்தீவு அல்லது வடகிழக்கு இந்தியா பற்றி கேளுங்கள்!",
+    te: "హలో! నేను YATRIK 💫, మీ Holiday Pulse ట్రావెల్ గైడ్. అండమాన్, లక్షద్వీప్ లేదా ఈశాన్య భారతదేశం గురించి అడగండి!",
+    ar: "مرحباً! أنا YATRIK 💫، مرشدك السياحي في Holiday Pulse. اسألني عن جزر أندامان أو لكشادويب أو شمال شرق الهند!",
+    fr: "Bonjour! Je suis YATRIK 💫, votre guide de voyage Holiday Pulse. Posez-moi des questions sur Andaman, Lakshadweep ou le Nord-Est de l'Inde!",
+    es: "¡Hola! Soy YATRIK 💫, tu guía de viaje Holiday Pulse. ¡Pregúntame sobre Andaman, Lakshadweep o el Noreste de India!",
+    zh: "你好！我是YATRIK 💫，您的Holiday Pulse旅行向导。请询问关于安达曼、拉克沙群岛或印度东北部的旅游！",
+    ja: "こんにちは！私はYATRIK 💫、Holiday Pulseのトラベルガイドです。アンダマン、ラクシャドゥイープ、またはインド北東部についてお聞きください！",
+    ko: "안녕하세요! 저는 YATRIK 💫, Holiday Pulse 여행 가이드입니다. 안다만, 락샤드위프, 또는 인도 북동부에 대해 물어보세요!",
+    de: "Hallo! Ich bin YATRIK 💫, Ihr Holiday Pulse Reiseführer. Fragen Sie mich über Andaman, Lakshadweep oder Nordostindien!",
+    ru: "Привет! Я YATRIK 💫, ваш путеводитель Holiday Pulse. Спросите меня об Андаманских островах, Лакшадвипе или Северо-Восточной Индии!",
+    pt: "Olá! Sou YATRIK 💫, seu guia de viagem Holiday Pulse. Pergunte-me sobre Andaman, Lakshadweep ou o Nordeste da Índia!",
     default:
-      "Hi! I'm DARLING 💫, your Holiday Pulse travel guide. Ask me about our tours to Andaman, Lakshadweep or North-East India!",
+      "Hi! I'm YATRIK 💫, your Holiday Pulse travel guide. Ask me about our tours to Andaman, Lakshadweep or North-East India!",
   },
   packages: {
     en: "We offer tours to 3 amazing destinations:\n🏝️ Andaman & Nicobar (from ₹12,999)\n🌊 Lakshadweep (from ₹24,999)\n🏔️ North-East India (from ₹19,999)\nWhich destination interests you?",
@@ -296,7 +331,7 @@ function getResponse(intent: string, lang: LangCode): string {
 
 function detectIntent(msg: string): string {
   const m = msg.toLowerCase();
-  if (/hello|hi\b|hey|namaste|नमस्ते|help|darling/.test(m)) return "greeting";
+  if (/hello|hi\b|hey|namaste|नमस्ते|help|yatrik/.test(m)) return "greeting";
   if (/package|tour|destination|holiday|all|destinations/.test(m))
     return "packages";
   if (/andaman/.test(m)) return "andaman";
@@ -320,7 +355,7 @@ interface Message {
   text: string;
 }
 
-export default function DarlingChatbot() {
+export default function YatrikChatbot() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -468,7 +503,7 @@ export default function DarlingChatbot() {
             }}
           >
             <MessageCircle size={22} />
-            <span className="text-[9px] font-bold tracking-wide">DARLING</span>
+            <span className="text-[9px] font-bold tracking-wide">YATRIK</span>
           </motion.button>
         )}
       </AnimatePresence>
@@ -497,7 +532,7 @@ export default function DarlingChatbot() {
                   💫
                 </div>
                 <div>
-                  <p className="font-bold text-sm leading-tight">DARLING</p>
+                  <p className="font-bold text-sm leading-tight">YATRIK</p>
                   <p className="text-xs text-white/80">
                     Holiday Pulse Assistant
                   </p>
@@ -638,7 +673,7 @@ export default function DarlingChatbot() {
             <div className="px-3 py-2 bg-white border-t border-gray-100 flex items-center gap-2">
               <input
                 className="flex-1 text-sm rounded-full border border-gray-200 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-300 bg-gray-50"
-                placeholder="Message DARLING..."
+                placeholder="Message YATRIK..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
