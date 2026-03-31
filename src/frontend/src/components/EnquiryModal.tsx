@@ -15,7 +15,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { CheckCircle, Loader2, MessageCircle } from "lucide-react";
+import {
+  AlertTriangle,
+  CheckCircle,
+  CheckCircle2,
+  Loader2,
+  MessageCircle,
+} from "lucide-react";
 import { useState } from "react";
 import { staticPackages } from "../data/packages";
 import type { PackageData } from "../data/packages";
@@ -42,6 +48,65 @@ function isCruisePackage(pkg: PackageData | null | undefined): boolean {
   );
 }
 
+// Returns best month ranges as arrays of month indices (0=Jan, 11=Dec)
+function getBestMonthsInfo(pkgId: number): {
+  months: string;
+  tip: string;
+  isCruise: boolean;
+  // inclusive month ranges [startMonth, endMonth] (0-indexed)
+  // ranges can wrap around year-end (e.g. Oct-May = [[9,11],[0,4]])
+  ranges: [number, number][];
+} {
+  if (pkgId >= 30)
+    return {
+      months: "Nov – Mar",
+      tip: "Smooth seas & ideal sailing conditions",
+      isCruise: true,
+      ranges: [
+        [10, 11],
+        [0, 2],
+      ],
+    };
+  if (pkgId >= 20)
+    return {
+      months: "Oct – Apr",
+      tip: "Dry trekking season, clear skies",
+      isCruise: false,
+      ranges: [
+        [9, 11],
+        [0, 3],
+      ],
+    };
+  if (pkgId >= 10)
+    return {
+      months: "Nov – Apr",
+      tip: "Clear lagoons, no monsoon",
+      isCruise: false,
+      ranges: [
+        [10, 11],
+        [0, 3],
+      ],
+    };
+  return {
+    months: "Oct – May",
+    tip: "Dry season, calm seas & great visibility",
+    isCruise: false,
+    ranges: [
+      [9, 11],
+      [0, 4],
+    ],
+  };
+}
+
+function isDateInBestWindow(
+  dateStr: string,
+  ranges: [number, number][],
+): boolean {
+  if (!dateStr) return true; // no date = no warning
+  const month = new Date(dateStr).getMonth(); // 0-indexed
+  return ranges.some(([start, end]) => month >= start && month <= end);
+}
+
 export function EnquiryModal({
   open,
   onClose,
@@ -65,6 +130,14 @@ export function EnquiryModal({
     selectedPackage;
 
   const isCruise = isCruisePackage(selectedPkg);
+  const bestMonthInfo = selectedPkg ? getBestMonthsInfo(selectedPkg.id) : null;
+
+  // Date validator
+  const dateEntered = form.travelDate.length > 0;
+  const dateInWindow =
+    bestMonthInfo && dateEntered
+      ? isDateInBestWindow(form.travelDate, bestMonthInfo.ranges)
+      : null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,6 +145,8 @@ export function EnquiryModal({
       isCruise && form.cabinType
         ? ` | Cabin Type: ${CABIN_TYPES.find((c) => c.value === form.cabinType)?.label || form.cabinType}`
         : "";
+    const dateWarning =
+      dateInWindow === false ? " [⚠️ Date outside recommended window]" : "";
     try {
       await submitEnquiry.mutateAsync({
         id: BigInt(0),
@@ -80,7 +155,7 @@ export function EnquiryModal({
         name: form.name,
         email: form.email,
         phone: form.phone,
-        message: `Travel Date: ${form.travelDate} | Persons: ${form.persons}${cabinLine} | ${form.message}`,
+        message: `Travel Date: ${form.travelDate}${dateWarning} | Persons: ${form.persons}${cabinLine} | ${form.message}`,
         timestamp: BigInt(Date.now()),
       });
       setSubmitted(true);
@@ -152,6 +227,42 @@ export function EnquiryModal({
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4 pt-2">
+            {/* Best Month to Book callout */}
+            {bestMonthInfo && (
+              <div
+                className={`flex items-start gap-3 rounded-xl px-4 py-3 border ${
+                  bestMonthInfo.isCruise
+                    ? "bg-indigo-50 border-indigo-200"
+                    : "bg-emerald-50 border-emerald-200"
+                }`}
+              >
+                <span className="text-xl mt-0.5">🗓️</span>
+                <div>
+                  <p
+                    className={`text-xs font-semibold uppercase tracking-wide mb-0.5 ${
+                      bestMonthInfo.isCruise
+                        ? "text-indigo-500"
+                        : "text-emerald-600"
+                    }`}
+                  >
+                    Best Months to Book
+                  </p>
+                  <p
+                    className={`text-sm font-bold ${
+                      bestMonthInfo.isCruise
+                        ? "text-indigo-800"
+                        : "text-emerald-800"
+                    }`}
+                  >
+                    {bestMonthInfo.months}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-0.5">
+                    {bestMonthInfo.tip}
+                  </p>
+                </div>
+              </div>
+            )}
+
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <Label htmlFor="enq-name" className="text-sm font-medium">
@@ -209,7 +320,12 @@ export function EnquiryModal({
               <Select
                 value={form.packageId}
                 onValueChange={(v) =>
-                  setForm((p) => ({ ...p, packageId: v, cabinType: "" }))
+                  setForm((p) => ({
+                    ...p,
+                    packageId: v,
+                    cabinType: "",
+                    travelDate: "",
+                  }))
                 }
               >
                 <SelectTrigger className="mt-1" data-ocid="enquiry.select">
@@ -263,9 +379,39 @@ export function EnquiryModal({
                   onChange={(e) =>
                     setForm((p) => ({ ...p, travelDate: e.target.value }))
                   }
-                  className="mt-1"
+                  className={`mt-1 ${
+                    dateInWindow === false
+                      ? "border-amber-400 focus:ring-amber-400"
+                      : dateInWindow === true
+                        ? "border-emerald-400 focus:ring-emerald-400"
+                        : ""
+                  }`}
                   data-ocid="enquiry.input"
                 />
+                {/* Date validation feedback */}
+                {dateInWindow === false && bestMonthInfo && (
+                  <div className="mt-2 flex items-start gap-2 rounded-lg bg-amber-50 border border-amber-200 px-3 py-2">
+                    <AlertTriangle className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" />
+                    <div>
+                      <p className="text-xs font-semibold text-amber-700">
+                        Outside recommended window
+                      </p>
+                      <p className="text-xs text-amber-600 mt-0.5">
+                        Best travel months are{" "}
+                        <strong>{bestMonthInfo.months}</strong>. You may
+                        experience unfavourable weather outside this period.
+                      </p>
+                    </div>
+                  </div>
+                )}
+                {dateInWindow === true && bestMonthInfo && (
+                  <div className="mt-2 flex items-center gap-2 rounded-lg bg-emerald-50 border border-emerald-200 px-3 py-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <p className="text-xs text-emerald-700 font-medium">
+                      Great choice! This falls within the ideal travel window.
+                    </p>
+                  </div>
+                )}
               </div>
               <div>
                 <Label htmlFor="enq-persons" className="text-sm font-medium">
