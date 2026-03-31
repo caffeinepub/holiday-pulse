@@ -1,29 +1,47 @@
-# Holiday Pulse – SEO Optimization
+# Holiday Pulse — Weather Conditions Feature
 
 ## Current State
-The site is a full-featured travel packages website for Holiday Pulse covering Andaman & Nicobar, Lakshadweep, and North-East India. The `index.html` has an empty `<title>` and no SEO meta tags. There is no `robots.txt`, `sitemap.xml`, or structured data. The site cannot be properly discovered or ranked by Google.
+Holiday Pulse is a travel packages website with sections for Andaman & Nicobar, Lakshadweep, and North-East India. The main page includes Hero, Flash Sale, Trip Finder, Stats Bar, Packages, Gallery, Flicker Book, Clients, Why Choose, and Contact sections. The Header has nav links for destinations, Plan My Trip, Flash Sale, Gallery, Reviews, and Contact.
 
 ## Requested Changes (Diff)
 
 ### Add
-- Full meta tag block in `index.html`: title, description, keywords, author, geo tags
-- Open Graph tags (og:title, og:description, og:image, og:url, og:type, og:locale, og:site_name)
-- Twitter Card tags (twitter:card, twitter:title, twitter:description, twitter:image)
-- JSON-LD structured data in `index.html` — TravelAgency schema with services for Andaman, Lakshadweep, North-East India, and cruise packages
-- `robots.txt` in `public/` — allow all crawlers, point to sitemap
-- `sitemap.xml` in `public/` — include homepage URL and section anchors
-- Canonical link tag
-- Favicon meta (theme-color, apple-touch-icon)
+- **WeatherSection** component (`src/frontend/src/components/WeatherSection.tsx`):
+  - Live weather cards for all 3 destinations using the Open-Meteo API (free, no API key, CORS-friendly)
+  - Destinations and coordinates:
+    - Andaman & Nicobar → Port Blair (lat: 11.6234, lon: 92.7265)
+    - Lakshadweep → Kavaratti (lat: 10.5669, lon: 72.6420)
+    - North-East India → Guwahati (lat: 26.1445, lon: 91.7362)
+  - Each card displays:
+    - City name and destination label
+    - Live temperature (°C)
+    - Weather condition text + animated emoji icon (mapped from WMO weather code)
+    - Relative humidity (%)
+    - Wind speed (km/h)
+    - UV Index
+    - Static "Best Time to Visit" badge (seasonal recommendation)
+    - A travel tip based on the current weather code
+  - Loading skeleton while fetching
+  - Error fallback (show static seasonal data if API fails)
+  - Section heading: "Live Weather at Your Destination"
+  - Section id: `weather` for nav anchor
+- **"🌤 Weather" nav link** in Header.tsx pointing to `#weather`
+- WeatherSection placed in App.tsx between PackagesSection and GallerySection
 
 ### Modify
-- `index.html` `<title>` from empty to: `Holiday Pulse | Andaman, Lakshadweep & North-East India Travel Packages`
-- `<html lang="en">` stays as-is
+- `src/frontend/src/App.tsx` — import and render `<WeatherSection />` between PackagesSection and GallerySection; add `id="weather"` anchor
+- `src/frontend/src/components/Header.tsx` — add `{ label: "🌤 Weather", href: "#weather", dest: null }` nav link
 
 ### Remove
 - Nothing removed
 
 ## Implementation Plan
-1. Update `src/frontend/index.html` with all SEO meta tags, Open Graph, Twitter Cards, canonical link, and JSON-LD structured data block for TravelAgency.
-2. Create `src/frontend/public/robots.txt` allowing all bots and pointing to sitemap.
-3. Create `src/frontend/public/sitemap.xml` with main page URL and key section anchors.
-4. Validate build passes.
+1. Create `WeatherSection.tsx` with:
+   - `useEffect` fetching Open-Meteo API for all 3 destinations in parallel
+   - WMO weather code → emoji + condition label mapping function
+   - Static seasonal best-time-to-visit data per destination
+   - Weather-code-based travel tips
+   - Responsive 3-column card grid with loading skeletons
+   - Refresh button to re-fetch live data
+2. Update `App.tsx` to include `<WeatherSection />` between PackagesSection and GallerySection
+3. Update `Header.tsx` to add the Weather nav link
