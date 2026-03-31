@@ -9,6 +9,13 @@ import { motion } from "motion/react";
 import { useState } from "react";
 import type { PackageData } from "../data/packages";
 
+function getBestMonths(pkgId: number): string {
+  if (pkgId >= 30) return "Nov – Mar";
+  if (pkgId >= 20) return "Oct – Apr";
+  if (pkgId >= 10) return "Nov – Apr";
+  return "Oct – May";
+}
+
 const categoryColors: Record<string, string> = {
   Budget: "bg-green-100 text-green-700",
   Explorer: "bg-blue-100 text-blue-700",
@@ -155,6 +162,20 @@ export function PackageCard({
               All meals & cabin included
             </p>
           )}
+        </div>
+
+        {/* Best Month to Book badge */}
+        <div className="flex items-center gap-1.5 mb-3">
+          <span
+            className={`px-3 py-1 text-xs font-semibold rounded-full flex items-center gap-1.5 ${
+              isCruise
+                ? "bg-indigo-50 text-indigo-700 border border-indigo-200"
+                : "bg-emerald-50 text-emerald-700 border border-emerald-200"
+            }`}
+          >
+            <span>🗓️</span>
+            <span>Best months to visit: {getBestMonths(pkg.id)}</span>
+          </span>
         </div>
 
         {/* Highlights chips */}
