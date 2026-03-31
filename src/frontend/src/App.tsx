@@ -7,10 +7,14 @@ import {
   createRouter,
 } from "@tanstack/react-router";
 import { useRef, useState } from "react";
+import { BackgroundMusic } from "./components/BackgroundMusic";
 import { ClientsSection } from "./components/ClientsSection";
 import { ContactSection } from "./components/ContactSection";
 import DarlingChatbot from "./components/DarlingChatbot";
 import { EnquiryModal } from "./components/EnquiryModal";
+import { FlashSaleBanner } from "./components/FlashSaleBanner";
+import { FlashSaleSection } from "./components/FlashSaleSection";
+import { FlickerBookSection } from "./components/FlickerBookSection";
 import { Footer } from "./components/Footer";
 import { GallerySection } from "./components/GallerySection";
 import { Header } from "./components/Header";
@@ -22,10 +26,22 @@ import { WhyChooseSection } from "./components/WhyChooseSection";
 import type { PackageData } from "./data/packages";
 import { AdminPage } from "./pages/AdminPage";
 
+const BANNER_HEIGHT = 52; // px — height of the FlashSaleBanner bar
+
 function HomePage() {
   const packagesRef = useRef<HTMLDivElement>(null);
   const [enquiryOpen, setEnquiryOpen] = useState(false);
   const [selectedPkg, setSelectedPkg] = useState<PackageData | null>(null);
+  const [bannerDismissed, setBannerDismissed] = useState(
+    () => sessionStorage.getItem("hp_banner_dismissed") === "1",
+  );
+
+  const bannerShowing = !bannerDismissed;
+
+  const handleDismissBanner = () => {
+    sessionStorage.setItem("hp_banner_dismissed", "1");
+    setBannerDismissed(true);
+  };
 
   const scrollToPackages = () => {
     packagesRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -36,17 +52,31 @@ function HomePage() {
     setEnquiryOpen(true);
   };
 
+  const handleFlashSaleBookNow = () => {
+    scrollToPackages();
+  };
+
   return (
     <div className="min-h-screen">
-      <Header onAdminClick={() => router.navigate({ to: "/admin" })} />
+      {/* Fixed flash sale banner — sits above the header */}
+      {bannerShowing && <FlashSaleBanner onDismiss={handleDismissBanner} />}
+
+      {/* Header pushed down by banner height when banner is visible */}
+      <Header
+        onAdminClick={() => router.navigate({ to: "/admin" })}
+        bannerHeight={bannerShowing ? BANNER_HEIGHT : 0}
+      />
+
       <main>
         <HeroScene onExploreClick={scrollToPackages} />
+        <FlashSaleSection onBookNow={handleFlashSaleBookNow} />
         <TripFinder />
         <StatsBar />
-        <div ref={packagesRef}>
+        <div ref={packagesRef} id="packages">
           <PackagesSection onBookNow={handleBookNow} />
         </div>
         <GallerySection />
+        <FlickerBookSection />
         <ClientsSection />
         <WhyChooseSection />
         <ContactSection />
@@ -57,6 +87,9 @@ function HomePage() {
         onClose={() => setEnquiryOpen(false)}
         selectedPackage={selectedPkg}
       />
+      {/* Floating ambient music player — bottom-left */}
+      <BackgroundMusic />
+      {/* DARLING chatbot — bottom-right */}
       <DarlingChatbot />
     </div>
   );

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 interface HeaderProps {
   onAdminClick: () => void;
+  bannerHeight?: number;
 }
 
 interface NavLink {
@@ -12,9 +13,10 @@ interface NavLink {
   href: string;
   dest: string | null;
   highlight?: boolean;
+  flashSale?: boolean;
 }
 
-export function Header({ onAdminClick }: HeaderProps) {
+export function Header({ onAdminClick, bannerHeight = 0 }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -34,6 +36,12 @@ export function Header({ onAdminClick }: HeaderProps) {
       dest: null,
       highlight: true,
     },
+    {
+      label: "🔥 Flash Sale",
+      href: "#flash-sale",
+      dest: null,
+      flashSale: true,
+    },
     { label: "Gallery", href: "#gallery", dest: null },
     { label: "Reviews", href: "#reviews", dest: null },
     { label: "Contact", href: "#contact", dest: null },
@@ -50,11 +58,12 @@ export function Header({ onAdminClick }: HeaderProps) {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
           ? "bg-white/90 backdrop-blur-md shadow-sm border-b border-teal-50"
           : "bg-white/70 backdrop-blur-sm"
       }`}
+      style={{ top: bannerHeight > 0 ? `${bannerHeight}px` : "0" }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
@@ -73,18 +82,28 @@ export function Header({ onAdminClick }: HeaderProps) {
           </a>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-5">
+          <nav className="hidden lg:flex items-center gap-4 xl:gap-5">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 data-ocid="header.link"
                 onClick={() => handleNavClick(link)}
-                className={`text-sm font-medium transition-colors ${
-                  link.highlight
-                    ? "bg-teal-500 text-white px-3 py-1.5 rounded-full hover:bg-teal-600 shadow-sm"
-                    : "text-gray-600 hover:text-teal-600"
-                }`}
+                className={
+                  link.flashSale
+                    ? "text-sm font-bold px-3 py-1.5 rounded-full shadow-sm transition-all text-white hover:opacity-90"
+                    : link.highlight
+                      ? "bg-teal-500 text-white text-sm font-medium px-3 py-1.5 rounded-full hover:bg-teal-600 shadow-sm transition-colors"
+                      : "text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors"
+                }
+                style={
+                  link.flashSale
+                    ? {
+                        background: "linear-gradient(135deg, #ea580c, #dc2626)",
+                        boxShadow: "0 2px 8px rgba(220,38,38,0.35)",
+                      }
+                    : undefined
+                }
               >
                 {link.label}
               </a>
@@ -143,11 +162,13 @@ export function Header({ onAdminClick }: HeaderProps) {
                   key={link.label}
                   href={link.href}
                   onClick={() => handleNavClick(link)}
-                  className={`text-sm font-medium py-1 ${
-                    link.highlight
-                      ? "text-teal-600 font-semibold"
-                      : "text-gray-700 hover:text-teal-600"
-                  }`}
+                  className={
+                    link.flashSale
+                      ? "text-sm font-bold text-orange-600 py-1"
+                      : link.highlight
+                        ? "text-sm font-semibold text-teal-600 py-1"
+                        : "text-sm font-medium text-gray-700 hover:text-teal-600 py-1"
+                  }
                 >
                   {link.label}
                 </a>

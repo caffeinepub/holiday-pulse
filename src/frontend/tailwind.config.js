@@ -18,6 +18,7 @@ export default {
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],
         sans: ['Poppins', 'sans-serif'],
+        playfair: ['"Playfair Display"', 'Georgia', 'serif'],
       },
       colors: {
         border: "oklch(var(--border))",
