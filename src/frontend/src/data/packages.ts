@@ -317,6 +317,328 @@ export const staticPackages: PackageData[] = [
   },
 ];
 
+export const andamanCruisePackages: PackageData[] = [
+  {
+    id: 30,
+    name: "Andaman Cruise Escape",
+    tagline: "Sail the islands on a budget-friendly cruise",
+    category: "Budget",
+    duration: "3N Cruise",
+    days: 3,
+    nights: 3,
+    price: 15999,
+    priceLabel: "starting from",
+    image: "/assets/generated/andaman-cruise-budget.dim_800x500.jpg",
+    isActive: true,
+    highlights: [
+      "Cruise Ship Stay",
+      "Port Blair Embarkation",
+      "Havelock Island Stop",
+      "Onboard Dining & Entertainment",
+      "Cellular Jail Visit",
+      "Glass-Bottom Boat",
+    ],
+    inclusions: [
+      "3 nights onboard cruise accommodation (twin/double cabin)",
+      "All onboard meals (breakfast, lunch & dinner)",
+      "Welcome cocktail & evening snacks",
+      "Onboard entertainment — live music, dance, cultural shows",
+      "Island stops: Port Blair, Havelock",
+      "Guided shore excursion at each port",
+      "Life jackets & safety orientation",
+      "Port Blair arrival & departure assistance",
+    ],
+    exclusions: [
+      "Airfare to/from Port Blair",
+      "Personal drinks & laundry",
+      "Water sports activities (optional add-on)",
+      "Spa & casino (if applicable)",
+      "Entry fees at monuments",
+      "GST & port taxes",
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "Embarkation at Port Blair",
+        description:
+          "Report to Port Blair Harbour by 12:00 noon. Complete check-in and cabin allocation. Safety drill followed by sail-away welcome party on deck. Enjoy the panoramic views of the Andaman Sea as the ship sets sail. Evening dinner onboard.",
+        activities: [
+          "Port Blair Harbour Check-in",
+          "Cabin Allocation",
+          "Safety Drill",
+          "Sail-Away Party",
+          "Onboard Welcome Dinner",
+        ],
+      },
+      {
+        day: 2,
+        title: "Havelock Island (Swaraj Dweep) Port Stop",
+        description:
+          "Cruise anchors at Havelock Island. Guests are ferried ashore for a guided excursion. Visit the iconic Radhanagar Beach (Asia's Best Beach), take a glass-bottom boat ride to view coral reefs, and enjoy the crystal-clear waters. Return to ship by 5:00 PM. Cultural evening onboard.",
+        activities: [
+          "Ferry to Shore",
+          "Radhanagar Beach",
+          "Glass-Bottom Boat",
+          "Coral Reef Viewing",
+          "Return to Ship",
+          "Cultural Show Onboard",
+        ],
+      },
+      {
+        day: 3,
+        title: "Neil Island Stop + Return to Port Blair",
+        description:
+          "Morning stop at Neil Island (Shaheed Dweep). Explore the natural coral bridge at Laxmanpur Beach, enjoy swimming at Bharatpur Beach. Lunch onboard as the ship returns to Port Blair. Disembarkation by 5:00 PM.",
+        activities: [
+          "Neil Island Shore Visit",
+          "Laxmanpur Natural Bridge",
+          "Bharatpur Beach Swimming",
+          "Farewell Lunch Onboard",
+          "Port Blair Disembarkation",
+        ],
+      },
+    ],
+  },
+  {
+    id: 31,
+    name: "Andaman Cruise Explorer",
+    tagline: "Island-hopping cruise with adventure & culture",
+    category: "Explorer",
+    duration: "5N Cruise",
+    days: 5,
+    nights: 5,
+    price: 28999,
+    priceLabel: "starting from",
+    image: "/assets/generated/andaman-cruise-explorer.dim_800x500.jpg",
+    isActive: true,
+    highlights: [
+      "5 Islands in 5 Nights",
+      "Snorkeling & Sea Walk",
+      "Baratang Mangrove Safari",
+      "Ross Island Ruins",
+      "Onboard Pool & Spa",
+      "Live DJ Night",
+    ],
+    inclusions: [
+      "5 nights onboard cruise accommodation (AC cabin, twin sharing)",
+      "All meals onboard (buffet-style)",
+      "Guided shore excursions at each island",
+      "1 complimentary snorkeling session",
+      "1 sea walk (shallow-water walk)",
+      "Onboard pool, gym & spa access",
+      "Live entertainment nightly",
+      "Port Blair embarkation & disembarkation assistance",
+    ],
+    exclusions: [
+      "Airfare to/from Port Blair",
+      "Personal expenses & tips",
+      "Premium spa treatments",
+      "Alcoholic beverages",
+      "Scuba diving (optional add-on @ ₹2,500)",
+      "GST & port taxes",
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "Embarkation — Port Blair",
+        description:
+          "Arrive Port Blair. Board cruise ship at 11:00 AM. Cabin allocation, safety briefing. Afternoon visit to Cellular Jail (shore excursion). Evening sail-away dinner with live music.",
+        activities: [
+          "Boarding & Cabin Check-in",
+          "Cellular Jail Shore Visit",
+          "Sail-Away Dinner",
+          "Live Band Performance",
+        ],
+      },
+      {
+        day: 2,
+        title: "Ross Island + North Bay",
+        description:
+          "Morning shore excursion to Ross Island — explore colonial ruins, peacock sanctuary and deer park. Afternoon at North Bay Island for water sports: snorkeling, sea walk, glass-bottom boat. Return to ship for BBQ night.",
+        activities: [
+          "Ross Island Guided Tour",
+          "North Bay Water Sports",
+          "Snorkeling",
+          "Sea Walk",
+          "BBQ Night Onboard",
+        ],
+      },
+      {
+        day: 3,
+        title: "Havelock — Radhanagar & Elephant Beach",
+        description:
+          "Full day at Havelock Island. Morning at Radhanagar Beach (Asia's finest). Afternoon trek to Elephant Beach for coral snorkeling. Sunset cocktails on deck. Movie night onboard.",
+        activities: [
+          "Radhanagar Beach",
+          "Elephant Beach Snorkeling",
+          "Coral Exploration",
+          "Sunset Deck Cocktails",
+          "Movie Night",
+        ],
+      },
+      {
+        day: 4,
+        title: "Baratang — Mangrove Safari & Limestone Caves",
+        description:
+          "Rare excursion to Baratang Island. Motorboat ride through stunning mangrove creeks. Trek to breathtaking limestone caves with stalactites and stalagmites. Mud volcano visit. DJ night onboard.",
+        activities: [
+          "Mangrove Creek Safari",
+          "Limestone Caves Trek",
+          "Mud Volcano",
+          "Jungle Walk",
+          "DJ Night Onboard",
+        ],
+      },
+      {
+        day: 5,
+        title: "Neil Island + Farewell & Disembarkation",
+        description:
+          "Morning stop at Neil Island. Natural coral bridge at Laxmanpur, relaxing swim at Bharatpur. Farewell gala lunch onboard. Ship returns to Port Blair. Disembarkation by 6:00 PM.",
+        activities: [
+          "Neil Island Shore Visit",
+          "Natural Coral Bridge",
+          "Bharatpur Beach",
+          "Farewell Gala Lunch",
+          "Port Blair Disembarkation",
+        ],
+      },
+    ],
+  },
+  {
+    id: 32,
+    name: "Andaman Cruise Premium",
+    tagline: "Luxury cruise through paradise islands",
+    category: "Premium",
+    duration: "7N Cruise",
+    days: 7,
+    nights: 7,
+    price: 54999,
+    priceLabel: "starting from",
+    image: "/assets/generated/andaman-cruise-premium.dim_800x500.jpg",
+    isActive: true,
+    highlights: [
+      "7 Islands in 7 Nights",
+      "Luxury Suite Cabin",
+      "Scuba Diving Certified",
+      "Private Sunset Cruise",
+      "Gala Dinner & Dance",
+      "Full-Day Little Andaman",
+    ],
+    inclusions: [
+      "7 nights luxury suite cabin (sea-facing, twin occupancy)",
+      "All gourmet meals (à la carte + buffet) onboard",
+      "Premium shore excursions at 7 islands",
+      "1 certified scuba diving session (PADI certified instructor)",
+      "Private sunset boat cruise at Havelock",
+      "Unlimited use of pool, spa & gym",
+      "Gala captain's dinner on night 4",
+      "Complimentary fruit basket & in-cabin minibar",
+      "Priority embarkation & disembarkation",
+      "Dedicated concierge service",
+    ],
+    exclusions: [
+      "Airfare to/from Port Blair",
+      "Personal shopping & souvenirs",
+      "Extra scuba dives beyond the complimentary session",
+      "Premium alcohol & champagne",
+      "GST & port taxes",
+    ],
+    itinerary: [
+      {
+        day: 1,
+        title: "VIP Embarkation — Port Blair",
+        description:
+          "Exclusive priority boarding at Port Blair Harbour. Suite check-in with welcome champagne. Afternoon guided tour of Cellular Jail (private guide). Sail-away from Port Blair with gourmet dinner and live orchestra.",
+        activities: [
+          "Priority VIP Boarding",
+          "Suite Check-in & Champagne",
+          "Cellular Jail Private Tour",
+          "Gourmet Sail-Away Dinner",
+          "Live Orchestra",
+        ],
+      },
+      {
+        day: 2,
+        title: "Ross & Viper Islands — Colonial History",
+        description:
+          "Shore excursion to Ross Island (British ruins) and Viper Island (notorious Andaman prison). Private history guide. Afternoon back onboard — poolside lunch and spa session.",
+        activities: [
+          "Ross Island Private Tour",
+          "Viper Island Prison Visit",
+          "History Guide",
+          "Poolside Lunch",
+          "Spa Session",
+        ],
+      },
+      {
+        day: 3,
+        title: "Havelock — Private Beach & Scuba Diving",
+        description:
+          "Full day at Havelock Island. Private beach setup at Radhanagar. PADI-certified scuba diving in the Andaman's richest coral zone. Private sunset cruise at dusk. Cocktail night onboard.",
+        activities: [
+          "Private Beach Setup",
+          "Radhanagar Beach",
+          "Scuba Diving (PADI)",
+          "Private Sunset Cruise",
+          "Cocktail Night",
+        ],
+      },
+      {
+        day: 4,
+        title: "Neil Island + Captain's Gala Dinner",
+        description:
+          "Morning at Neil Island — natural coral bridge, beach picnic. Afternoon return to ship. Preparation for the legendary Captain's Gala Dinner — formal dress, 5-course meal, live jazz band.",
+        activities: [
+          "Neil Island Excursion",
+          "Natural Coral Bridge",
+          "Beach Picnic",
+          "Captain's Gala Dinner",
+          "Live Jazz Band",
+        ],
+      },
+      {
+        day: 5,
+        title: "Baratang — Mangroves, Caves & Mud Volcanoes",
+        description:
+          "Private motorboat through Baratang mangrove creeks. Exclusive limestone cave trek. Mud volcano. Jungle photowalk with naturalist guide. Evening bonfire on ship deck.",
+        activities: [
+          "Private Mangrove Safari",
+          "Limestone Caves",
+          "Mud Volcano",
+          "Naturalist Guide Walk",
+          "Deck Bonfire",
+        ],
+      },
+      {
+        day: 6,
+        title: "Little Andaman — Untouched Wilderness",
+        description:
+          "Rare cruise stop at Little Andaman (South Andaman). White sand Butler Bay Beach. Waterfalls, surfing point, coconut plantations. Indigenous tribal reserve (viewpoint only). Gourmet beachside dinner.",
+        activities: [
+          "Butler Bay Beach",
+          "Whisper Wave Waterfall",
+          "Surfing Point",
+          "Coconut Plantation Tour",
+          "Beachside Gourmet Dinner",
+        ],
+      },
+      {
+        day: 7,
+        title: "Farewell — Port Blair Disembarkation",
+        description:
+          "Final morning at sea with champagne breakfast on deck. Complimentary souvenir from Holiday Pulse. Disembark at Port Blair by 12:00 PM with transfer to airport.",
+        activities: [
+          "Champagne Breakfast on Deck",
+          "Farewell Ceremony",
+          "Holiday Pulse Souvenir",
+          "Port Blair Disembarkation",
+          "Airport Transfer",
+        ],
+      },
+    ],
+  },
+];
+
 export const lakshadweepPackages: PackageData[] = [
   {
     id: 10,

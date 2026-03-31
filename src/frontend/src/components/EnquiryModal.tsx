@@ -27,6 +27,21 @@ interface EnquiryModalProps {
   selectedPackage?: PackageData | null;
 }
 
+const CABIN_TYPES = [
+  { value: "interior", label: "Interior Cabin" },
+  { value: "ocean-view", label: "Ocean View Cabin" },
+  { value: "balcony", label: "Balcony Cabin" },
+  { value: "suite", label: "Suite" },
+];
+
+function isCruisePackage(pkg: PackageData | null | undefined): boolean {
+  if (!pkg) return false;
+  return (
+    (pkg as any).destination === "andaman-cruise" ||
+    pkg.name.toLowerCase().includes("cruise")
+  );
+}
+
 export function EnquiryModal({
   open,
   onClose,
@@ -40,6 +55,7 @@ export function EnquiryModal({
     travelDate: "",
     persons: "2",
     message: "",
+    cabinType: "",
   });
   const [submitted, setSubmitted] = useState(false);
   const submitEnquiry = useSubmitEnquiry();
@@ -48,8 +64,14 @@ export function EnquiryModal({
     staticPackages.find((p) => String(p.id) === form.packageId) ||
     selectedPackage;
 
+  const isCruise = isCruisePackage(selectedPkg);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const cabinLine =
+      isCruise && form.cabinType
+        ? ` | Cabin Type: ${CABIN_TYPES.find((c) => c.value === form.cabinType)?.label || form.cabinType}`
+        : "";
     try {
       await submitEnquiry.mutateAsync({
         id: BigInt(0),
@@ -58,18 +80,22 @@ export function EnquiryModal({
         name: form.name,
         email: form.email,
         phone: form.phone,
-        message: `Travel Date: ${form.travelDate} | Persons: ${form.persons} | ${form.message}`,
+        message: `Travel Date: ${form.travelDate} | Persons: ${form.persons}${cabinLine} | ${form.message}`,
         timestamp: BigInt(Date.now()),
       });
       setSubmitted(true);
     } catch {
-      // fallback: show success anyway (demo)
       setSubmitted(true);
     }
   };
 
+  const cabinLabel =
+    isCruise && form.cabinType
+      ? ` | Cabin: ${CABIN_TYPES.find((c) => c.value === form.cabinType)?.label || form.cabinType}`
+      : "";
+
   const waMessage = encodeURIComponent(
-    `Hi Holiday Pulse! I'm interested in ${selectedPkg?.name || "an Andaman package"}. Please share details.`,
+    `Hi Holiday Pulse! I'm interested in ${selectedPkg?.name || "an Andaman package"}${cabinLabel}. Please share details.`,
   );
 
   const handleClose = () => {
@@ -82,6 +108,7 @@ export function EnquiryModal({
       travelDate: "",
       persons: "2",
       message: "",
+      cabinType: "",
     });
     onClose();
   };
@@ -181,7 +208,9 @@ export function EnquiryModal({
               <Label className="text-sm font-medium">Package</Label>
               <Select
                 value={form.packageId}
-                onValueChange={(v) => setForm((p) => ({ ...p, packageId: v }))}
+                onValueChange={(v) =>
+                  setForm((p) => ({ ...p, packageId: v, cabinType: "" }))
+                }
               >
                 <SelectTrigger className="mt-1" data-ocid="enquiry.select">
                   <SelectValue placeholder="Select a package" />
@@ -195,6 +224,32 @@ export function EnquiryModal({
                 </SelectContent>
               </Select>
             </div>
+
+            {isCruise && (
+              <div>
+                <Label className="text-sm font-medium">🛳️ Cabin Type</Label>
+                <Select
+                  value={form.cabinType}
+                  onValueChange={(v) =>
+                    setForm((p) => ({ ...p, cabinType: v }))
+                  }
+                >
+                  <SelectTrigger
+                    className="mt-1 border-blue-300 focus:ring-blue-400"
+                    data-ocid="enquiry.select"
+                  >
+                    <SelectValue placeholder="Select cabin type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CABIN_TYPES.map((c) => (
+                      <SelectItem key={c.value} value={c.value}>
+                        {c.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
 
             <div className="grid grid-cols-2 gap-3">
               <div>

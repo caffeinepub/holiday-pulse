@@ -1,30 +1,29 @@
-# Holiday Pulse
+# Holiday Pulse – SEO Optimization
 
 ## Current State
-- Full travel website with 3 destinations: Andaman, Lakshadweep, North-East India
-- 3 packages per destination
-- Floating chatbot (ChatbotWidget.tsx) with limited language support (6 languages)
-- Admin panel at /admin
-- Hero section, package cards, enquiry modal with WhatsApp integration
-- Footer with www.holidaypulse.ind branding
+The site is a full-featured travel packages website for Holiday Pulse covering Andaman & Nicobar, Lakshadweep, and North-East India. The `index.html` has an empty `<title>` and no SEO meta tags. There is no `robots.txt`, `sitemap.xml`, or structured data. The site cannot be properly discovered or ranked by Google.
 
 ## Requested Changes (Diff)
 
 ### Add
-- Rename chatbot to "DARLING" (displayed as bot name in chat UI)
-- Expand language support to all major world languages (30+ languages covering all major language families)
-- Add latitude/longitude coordinates for each destination displayed in package detail or destination info
-- Language selector with full world language list in chatbot UI
+- Full meta tag block in `index.html`: title, description, keywords, author, geo tags
+- Open Graph tags (og:title, og:description, og:image, og:url, og:type, og:locale, og:site_name)
+- Twitter Card tags (twitter:card, twitter:title, twitter:description, twitter:image)
+- JSON-LD structured data in `index.html` — TravelAgency schema with services for Andaman, Lakshadweep, North-East India, and cruise packages
+- `robots.txt` in `public/` — allow all crawlers, point to sitemap
+- `sitemap.xml` in `public/` — include homepage URL and section anchors
+- Canonical link tag
+- Favicon meta (theme-color, apple-touch-icon)
 
 ### Modify
-- ChatbotWidget.tsx: rename to DARLING, expand languages to world-wide coverage (English, Hindi, Bengali, Tamil, Telugu, Malayalam, Kannada, Marathi, Gujarati, Punjabi, Urdu, Arabic, French, Spanish, Portuguese, German, Italian, Russian, Chinese Simplified, Chinese Traditional, Japanese, Korean, Thai, Vietnamese, Indonesian, Malay, Swahili, Turkish, Dutch, Polish, Greek, Hebrew, Persian/Farsi, and more)
-- packages.ts: add lat/lng coordinates for each destination
-- PackageCard or PackagesSection: display coordinates for destinations
+- `index.html` `<title>` from empty to: `Holiday Pulse | Andaman, Lakshadweep & North-East India Travel Packages`
+- `<html lang="en">` stays as-is
 
 ### Remove
 - Nothing removed
 
 ## Implementation Plan
-1. Update ChatbotWidget.tsx - rename bot to DARLING, add 40+ world languages with translations for common travel queries
-2. Update packages.ts - add lat/lng for Andaman (11.7401° N, 92.6586° E), Lakshadweep (10.5667° N, 72.6417° E), North-East India (26.2006° N, 92.9376° E)
-3. Display coordinates in destination sections with a nice map pin icon
+1. Update `src/frontend/index.html` with all SEO meta tags, Open Graph, Twitter Cards, canonical link, and JSON-LD structured data block for TravelAgency.
+2. Create `src/frontend/public/robots.txt` allowing all bots and pointing to sitemap.
+3. Create `src/frontend/public/sitemap.xml` with main page URL and key section anchors.
+4. Validate build passes.

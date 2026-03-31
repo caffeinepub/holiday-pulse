@@ -11,6 +11,7 @@ interface NavLink {
   label: string;
   href: string;
   dest: string | null;
+  highlight?: boolean;
 }
 
 export function Header({ onAdminClick }: HeaderProps) {
@@ -27,6 +28,14 @@ export function Header({ onAdminClick }: HeaderProps) {
     { label: "Andaman", href: "#packages", dest: "andaman" },
     { label: "Lakshadweep", href: "#packages", dest: "lakshadweep" },
     { label: "North-East", href: "#packages", dest: "northeast" },
+    {
+      label: "✈ Plan My Trip",
+      href: "#trip-finder",
+      dest: null,
+      highlight: true,
+    },
+    { label: "Gallery", href: "#gallery", dest: null },
+    { label: "Reviews", href: "#reviews", dest: null },
     { label: "Contact", href: "#contact", dest: null },
   ];
 
@@ -52,7 +61,7 @@ export function Header({ onAdminClick }: HeaderProps) {
           {/* Logo */}
           <a
             href="/"
-            className="flex items-center gap-2.5"
+            className="flex items-center gap-2.5 flex-shrink-0"
             data-ocid="header.link"
           >
             <div className="w-9 h-9 rounded-xl bg-teal-500 flex items-center justify-center shadow-sm">
@@ -64,14 +73,18 @@ export function Header({ onAdminClick }: HeaderProps) {
           </a>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-5">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 data-ocid="header.link"
                 onClick={() => handleNavClick(link)}
-                className="text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors"
+                className={`text-sm font-medium transition-colors ${
+                  link.highlight
+                    ? "bg-teal-500 text-white px-3 py-1.5 rounded-full hover:bg-teal-600 shadow-sm"
+                    : "text-gray-600 hover:text-teal-600"
+                }`}
               >
                 {link.label}
               </a>
@@ -79,7 +92,7 @@ export function Header({ onAdminClick }: HeaderProps) {
           </nav>
 
           {/* Right actions */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-3">
             <a
               href="tel:+919160393773"
               className="flex items-center gap-1.5 text-sm text-teal-600 font-medium hover:text-teal-700"
@@ -102,7 +115,7 @@ export function Header({ onAdminClick }: HeaderProps) {
           {/* Mobile menu toggle */}
           <button
             type="button"
-            className="md:hidden p-2 rounded-lg text-gray-600 hover:text-teal-600"
+            className="lg:hidden p-2 rounded-lg text-gray-600 hover:text-teal-600"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >
@@ -122,7 +135,7 @@ export function Header({ onAdminClick }: HeaderProps) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-t border-gray-100 px-4 pb-4"
+            className="lg:hidden bg-white border-t border-gray-100 px-4 pb-4"
           >
             <nav className="flex flex-col gap-3 pt-3">
               {navLinks.map((link) => (
@@ -130,11 +143,22 @@ export function Header({ onAdminClick }: HeaderProps) {
                   key={link.label}
                   href={link.href}
                   onClick={() => handleNavClick(link)}
-                  className="text-sm font-medium text-gray-700 hover:text-teal-600 py-1"
+                  className={`text-sm font-medium py-1 ${
+                    link.highlight
+                      ? "text-teal-600 font-semibold"
+                      : "text-gray-700 hover:text-teal-600"
+                  }`}
                 >
                   {link.label}
                 </a>
               ))}
+              <a
+                href="tel:+919160393773"
+                className="flex items-center gap-1.5 text-sm text-teal-600 font-medium py-1"
+              >
+                <Phone className="w-3.5 h-3.5" />
+                +91-91603 93773
+              </a>
               <Button
                 variant="outline"
                 size="sm"

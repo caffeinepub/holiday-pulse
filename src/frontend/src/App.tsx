@@ -7,13 +7,17 @@ import {
   createRouter,
 } from "@tanstack/react-router";
 import { useRef, useState } from "react";
+import { ClientsSection } from "./components/ClientsSection";
 import { ContactSection } from "./components/ContactSection";
 import DarlingChatbot from "./components/DarlingChatbot";
 import { EnquiryModal } from "./components/EnquiryModal";
 import { Footer } from "./components/Footer";
+import { GallerySection } from "./components/GallerySection";
 import { Header } from "./components/Header";
 import { HeroScene } from "./components/HeroScene";
 import { PackagesSection } from "./components/PackagesSection";
+import { StatsBar } from "./components/StatsBar";
+import { TripFinder } from "./components/TripFinder";
 import { WhyChooseSection } from "./components/WhyChooseSection";
 import type { PackageData } from "./data/packages";
 import { AdminPage } from "./pages/AdminPage";
@@ -37,9 +41,13 @@ function HomePage() {
       <Header onAdminClick={() => router.navigate({ to: "/admin" })} />
       <main>
         <HeroScene onExploreClick={scrollToPackages} />
+        <TripFinder />
+        <StatsBar />
         <div ref={packagesRef}>
           <PackagesSection onBookNow={handleBookNow} />
         </div>
+        <GallerySection />
+        <ClientsSection />
         <WhyChooseSection />
         <ContactSection />
       </main>
