@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -17,6 +18,7 @@ import {
   Edit,
   Loader2,
   LogIn,
+  MessageSquare,
   Palmtree,
   Plus,
   ToggleLeft,
@@ -25,9 +27,11 @@ import {
 import { motion } from "motion/react";
 import { useState } from "react";
 import { toast } from "sonner";
+import type { ChatLead } from "../backend.d";
 import { staticPackages } from "../data/packages";
 import { useInternetIdentity } from "../hooks/useInternetIdentity";
 import {
+  useAllChatLeads,
   useAllEnquiries,
   useAllPackages,
   useDeletePackage,
@@ -41,6 +45,7 @@ export function AdminPage() {
 
   const packagesQuery = useAllPackages();
   const enquiriesQuery = useAllEnquiries();
+  const chatLeadsQuery = useAllChatLeads();
   const deletePackage = useDeletePackage();
   const toggleActive = useTogglePackageActive();
 
@@ -156,6 +161,24 @@ export function AdminPage() {
           order: BigInt(p.id),
         }));
 
+  const leadsCount = chatLeadsQuery.data?.length ?? 0;
+
+  const formatLeadDate = (timestamp: bigint) => {
+    if (!timestamp) return "—";
+    try {
+      // ICP timestamps are in nanoseconds
+      const ms = Number(timestamp / 1_000_000n);
+      if (ms === 0) return "—";
+      return new Date(ms).toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      });
+    } catch {
+      return "—";
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Admin Header */}
@@ -192,6 +215,19 @@ export function AdminPage() {
             </TabsTrigger>
             <TabsTrigger value="enquiries" data-ocid="admin.tab">
               Enquiries
+            </TabsTrigger>
+            <TabsTrigger
+              value="chatleads"
+              data-ocid="admin.tab"
+              className="flex items-center gap-1.5"
+            >
+              <MessageSquare className="w-3.5 h-3.5" />
+              Chat Leads
+              {leadsCount > 0 && (
+                <span className="ml-1 bg-teal-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                  {leadsCount > 9 ? "9+" : leadsCount}
+                </span>
+              )}
             </TabsTrigger>
           </TabsList>
 
@@ -488,6 +524,128 @@ export function AdminPage() {
                   <Loader2 className="w-6 h-6 animate-spin text-teal-500" />
                 </div>
               )}
+            </div>
+          </TabsContent>
+
+          {/* Chat Leads Tab */}
+          <TabsContent value="chatleads">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-xl font-bold text-navy-800">
+                  YATRIK Chat Leads
+                </h2>
+                <p className="text-sm text-gray-500 mt-0.5">
+                  Customer details collected during chatbot profiling
+                </p>
+              </div>
+              {leadsCount > 0 && (
+                <Badge className="bg-teal-500 text-white px-3 py-1 text-sm">
+                  {leadsCount} {leadsCount === 1 ? "Lead" : "Leads"}
+                </Badge>
+              )}
+            </div>
+
+            <div
+              className="bg-white rounded-2xl shadow-card overflow-hidden"
+              data-ocid="admin.table"
+            >
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead>Phone</TableHead>
+                    <TableHead>Destination</TableHead>
+                    <TableHead>Group Size</TableHead>
+                    <TableHead>Travel Timeframe</TableHead>
+                    <TableHead>Experience</TableHead>
+                    <TableHead>Date</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {chatLeadsQuery.isLoading && (
+                    <TableRow>
+                      <TableCell
+                        colSpan={8}
+                        className="py-6"
+                        data-ocid="admin.loading_state"
+                      >
+                        <div className="space-y-2">
+                          {[1, 2, 3].map((n) => (
+                            <Skeleton key={n} className="h-8 w-full" />
+                          ))}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                  {!chatLeadsQuery.isLoading &&
+                    (!chatLeadsQuery.data ||
+                      chatLeadsQuery.data.length === 0) && (
+                      <TableRow>
+                        <TableCell
+                          colSpan={8}
+                          className="text-center py-14"
+                          data-ocid="admin.empty_state"
+                        >
+                          <div className="flex flex-col items-center gap-3">
+                            <div className="w-12 h-12 rounded-full bg-teal-50 flex items-center justify-center">
+                              <MessageSquare className="w-6 h-6 text-teal-400" />
+                            </div>
+                            <div>
+                              <p className="text-gray-500 font-medium">
+                                No chat leads yet
+                              </p>
+                              <p className="text-gray-400 text-sm mt-0.5">
+                                Leads from YATRIK will appear here once visitors
+                                complete the profiling flow.
+                              </p>
+                            </div>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  {chatLeadsQuery.data?.map((lead: ChatLead, i: number) => (
+                    <TableRow
+                      key={String(lead.id)}
+                      data-ocid={`admin.row.${i + 1}`}
+                    >
+                      <TableCell className="font-medium">{lead.name}</TableCell>
+                      <TableCell className="text-sm text-gray-600">
+                        {lead.email || "—"}
+                      </TableCell>
+                      <TableCell>
+                        <a
+                          href={`https://wa.me/${lead.phone.replace(/[^0-9]/g, "")}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-teal-600 hover:underline text-sm"
+                        >
+                          {lead.phone}
+                        </a>
+                      </TableCell>
+                      <TableCell>
+                        <span className="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded-full">
+                          {lead.destination}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-sm">
+                        {lead.groupSize}
+                      </TableCell>
+                      <TableCell className="text-sm">
+                        {lead.travelTimeframe}
+                      </TableCell>
+                      <TableCell>
+                        <span className="px-2 py-1 bg-amber-50 text-amber-700 text-xs rounded-full">
+                          {lead.experienceType}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-sm text-gray-500">
+                        {formatLeadDate(lead.timestamp)}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
           </TabsContent>
         </Tabs>

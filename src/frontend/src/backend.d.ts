@@ -34,6 +34,18 @@ export interface Enquiry {
     phone: string;
     packageId: bigint;
 }
+export interface ChatLead {
+    id: bigint;
+    name: string;
+    email: string;
+    phone: string;
+    destination: string;
+    groupSize: string;
+    travelTimeframe: string;
+    experienceType: string;
+    additionalNotes: string;
+    timestamp: bigint;
+}
 export interface DayItem {
     day: bigint;
     title: string;
@@ -54,6 +66,7 @@ export interface backendInterface {
     deletePackage(id: bigint): Promise<void>;
     getAllActivePackages(): Promise<Array<Package>>;
     getAllEnquiries(): Promise<Array<Enquiry>>;
+    getAllChatLeads(): Promise<Array<ChatLead>>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
     getPackageById(id: bigint): Promise<Package>;
@@ -62,6 +75,7 @@ export interface backendInterface {
     reorderPackages(order: Array<bigint>): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     submitEnquiry(enquiry: Enquiry): Promise<bigint>;
+    submitChatLead(lead: ChatLead): Promise<bigint>;
     togglePackageActiveStatus(id: bigint): Promise<boolean>;
     updatePackage(id: bigint, pkg: Package): Promise<void>;
 }

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { Enquiry, Package } from "../backend.d";
+import type { ChatLead, Enquiry, Package } from "../backend.d";
 import { useActor } from "./useActor";
 
 export function useActivePackages() {
@@ -104,6 +104,30 @@ export function useIsAdmin() {
     queryFn: async () => {
       if (!actor) return false;
       return actor.isCallerAdmin();
+    },
+    enabled: !!actor && !isFetching,
+  });
+}
+
+export function useSubmitChatLead() {
+  const { actor } = useActor();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (lead: ChatLead) => {
+      if (!actor) throw new Error("Not connected");
+      return (actor as any).submitChatLead(lead);
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["chatLeads"] }),
+  });
+}
+
+export function useAllChatLeads() {
+  const { actor, isFetching } = useActor();
+  return useQuery<ChatLead[]>({
+    queryKey: ["chatLeads"],
+    queryFn: async () => {
+      if (!actor) return [];
+      return (actor as any).getAllChatLeads();
     },
     enabled: !!actor && !isFetching,
   });

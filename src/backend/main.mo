@@ -49,6 +49,19 @@ actor {
     timestamp : Int;
   };
 
+  public type ChatLead = {
+    id : Nat;
+    name : Text;
+    email : Text;
+    phone : Text;
+    destination : Text;
+    groupSize : Text;
+    travelTimeframe : Text;
+    experienceType : Text;
+    additionalNotes : Text;
+    timestamp : Int;
+  };
+
   public type UserProfile = {
     name : Text;
   };
@@ -138,6 +151,7 @@ actor {
   let packages = Map.empty<Nat, Package>();
   let activePackages = Map.empty<Nat, Package>();
   let enquiries = Map.empty<Nat, Enquiry>();
+  let chatLeads = Map.empty<Nat, ChatLead>();
   let userProfiles = Map.empty<Principal, UserProfile>();
 
   let pendingEnquiries = List.empty<Enquiry>();
@@ -145,6 +159,7 @@ actor {
 
   let packageIdCounter = List.empty<(Nat, Nat)>();
   let enquiryIdCounter = List.empty<(Nat, Nat)>();
+  let chatLeadIdCounter = List.empty<(Nat, Nat)>();
 
   // Access control
   let accessControlState = AccessControl.initState();
@@ -182,6 +197,12 @@ actor {
   func getNextEnquiryId() : Nat {
     let id = enquiryIdCounter.size();
     enquiryIdCounter.add((id, id + 1));
+    id;
+  };
+
+  func getNextChatLeadId() : Nat {
+    let id = chatLeadIdCounter.size();
+    chatLeadIdCounter.add((id, id + 1));
     id;
   };
 
@@ -285,6 +306,25 @@ actor {
     enquiries.add(id, newEnquiry);
     pendingEnquiries.add(newEnquiry);
     id;
+  };
+
+  // Chat Leads
+  public shared ({ caller }) func submitChatLead(lead : ChatLead) : async Nat {
+    let id = getNextChatLeadId();
+    let newLead : ChatLead = {
+      lead with
+      id;
+      timestamp = Time.now();
+    };
+    chatLeads.add(id, newLead);
+    id;
+  };
+
+  public shared query ({ caller }) func getAllChatLeads() : async [ChatLead] {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can view chat leads");
+    };
+    chatLeads.values().toArray();
   };
 
   public query ({ caller }) func getAllActivePackages() : async [Package] {
