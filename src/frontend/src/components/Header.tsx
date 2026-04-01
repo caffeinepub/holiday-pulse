@@ -52,6 +52,16 @@ export function Header({ onAdminClick, bannerHeight = 0 }: HeaderProps) {
           {/* Desktop right actions */}
           <div className="hidden lg:flex items-center gap-4">
             <a
+              href="https://www.xe.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors"
+              data-ocid="header.link"
+            >
+              <span>💱</span>
+              Currency Converter
+            </a>
+            <a
               href="#contact"
               className="text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors"
               data-ocid="header.link"
@@ -103,6 +113,16 @@ export function Header({ onAdminClick, bannerHeight = 0 }: HeaderProps) {
             className="lg:hidden bg-white border-t border-gray-100 px-4 pb-4"
           >
             <nav className="flex flex-col gap-3 pt-3">
+              <a
+                href="https://www.xe.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-sm font-medium text-gray-700 hover:text-teal-600 py-1"
+                onClick={() => setMenuOpen(false)}
+              >
+                <span>💱</span>
+                Currency Converter
+              </a>
               <button
                 type="button"
                 onClick={scrollToContact}
