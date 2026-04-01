@@ -387,8 +387,22 @@ export default function YatrikChatbot() {
   const recognitionRef = useRef<{ stop: () => void } | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const langPickerRef = useRef<HTMLDivElement>(null);
+  const voicesRef = useRef<SpeechSynthesisVoice[]>([]);
 
   const currentLang = LANG_OPTIONS.find((l) => l.code === lang)!;
+
+  // Load voices asynchronously — browsers fire voiceschanged when ready
+  useEffect(() => {
+    if (!("speechSynthesis" in window)) return;
+    const loadVoices = () => {
+      voicesRef.current = window.speechSynthesis.getVoices();
+    };
+    loadVoices();
+    window.speechSynthesis.addEventListener("voiceschanged", loadVoices);
+    return () => {
+      window.speechSynthesis.removeEventListener("voiceschanged", loadVoices);
+    };
+  }, []);
 
   // Init greeting
   // biome-ignore lint/correctness/useExhaustiveDependencies: intentional
@@ -442,25 +456,44 @@ export default function YatrikChatbot() {
           m.id === id ? { ...m, text: displayText, translating: false } : m,
         ),
       );
-      if (!muted) speak(failed ? englishText : displayText);
+      if (!muted) speak(failed ? englishText : displayText, resolvedLang);
     } else {
       setMessages((prev) => [
         ...prev,
         { id: Date.now().toString(), from: "bot", text: englishText },
       ]);
-      if (!muted) speak(englishText);
+      if (!muted) speak(englishText, resolvedLang);
     }
   }
 
-  function speak(text: string) {
-    if ("speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const utt = new SpeechSynthesisUtterance(
-        text.replace(/[\u{1F300}-\u{1FFFF}]/gu, ""),
-      );
-      utt.lang = currentLang.speechCode;
-      window.speechSynthesis.speak(utt);
+  function speak(text: string, langCode: string) {
+    if (!("speechSynthesis" in window)) return;
+
+    // Strip emojis and markdown characters
+    const cleanText = text
+      .replace(/[\u{1F300}-\u{1FFFF}]/gu, "")
+      .replace(/[_*~`]/g, "");
+
+    const langOption = LANG_OPTIONS.find((l) => l.code === langCode);
+    const speechCode = langOption?.speechCode ?? langCode;
+    const langPrefix = speechCode.split("-")[0];
+
+    const voices = voicesRef.current;
+    let matchedVoice: SpeechSynthesisVoice | undefined;
+
+    // Priority a: exact match
+    matchedVoice = voices.find((v) => v.lang === speechCode);
+    // Priority b: prefix match
+    if (!matchedVoice) {
+      matchedVoice = voices.find((v) => v.lang.startsWith(langPrefix));
     }
+    // Priority c: no specific voice — browser picks
+
+    window.speechSynthesis.cancel();
+    const utt = new SpeechSynthesisUtterance(cleanText);
+    utt.lang = speechCode;
+    if (matchedVoice) utt.voice = matchedVoice;
+    window.speechSynthesis.speak(utt);
   }
 
   async function handleSend() {
