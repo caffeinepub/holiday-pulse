@@ -225,8 +225,20 @@ export function QuotationPage() {
     const to = encodeURIComponent(
       "info@holidaypulse.ind,siva.samatham@gmail.com",
     );
-    window.open(`mailto:${to}?subject=${subject}&body=${body}`, "_blank");
+    if (form.clientEmail.trim()) {
+      const cc = encodeURIComponent(form.clientEmail.trim());
+      window.open(
+        `mailto:${to}?cc=${cc}&subject=${subject}&body=${body}`,
+        "_blank",
+      );
+    } else {
+      window.open(`mailto:${to}?subject=${subject}&body=${body}`, "_blank");
+    }
   };
+
+  const emailButtonLabel = form.clientEmail.trim()
+    ? "Send Email (CC: client)"
+    : "Send Email";
 
   const handleWhatsApp = () => {
     const lines = [
@@ -346,10 +358,15 @@ export function QuotationPage() {
               variant="outline"
               onClick={handleEmail}
               data-ocid="quotation.email_button"
+              title={
+                form.clientEmail.trim()
+                  ? `Will CC: ${form.clientEmail.trim()}`
+                  : "Send to info@holidaypulse.ind"
+              }
               className="border-blue-500 text-blue-600 hover:bg-blue-50"
             >
               <Mail className="w-4 h-4 mr-1" />
-              Send Email
+              {emailButtonLabel}
             </Button>
             <Button
               size="sm"
@@ -478,6 +495,13 @@ export function QuotationPage() {
                   />
                 </div>
               </div>
+              {form.clientEmail.trim() && (
+                <p className="mt-2 text-xs text-blue-600 flex items-center gap-1">
+                  <Mail className="w-3 h-3" />
+                  Sending email will automatically CC{" "}
+                  <span className="font-medium">{form.clientEmail.trim()}</span>
+                </p>
+              )}
             </section>
 
             <Separator />
@@ -717,9 +741,15 @@ export function QuotationPage() {
                 variant="outline"
                 onClick={handleEmail}
                 data-ocid="quotation.email_button"
+                title={
+                  form.clientEmail.trim()
+                    ? `Will CC: ${form.clientEmail.trim()}`
+                    : "Send to info@holidaypulse.ind"
+                }
                 className="border-blue-500 text-blue-600 hover:bg-blue-50"
               >
-                <Mail className="w-4 h-4 mr-1" /> Email
+                <Mail className="w-4 h-4 mr-1" />
+                {emailButtonLabel}
               </Button>
               <Button
                 variant="outline"
