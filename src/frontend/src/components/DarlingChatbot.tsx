@@ -12,8 +12,6 @@ import {
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
-// ── Language definitions ──────────────────────────────────────────────────
-
 // ── Language definitions ────────────────────────────────────────────────
 type LangCode = string;
 
@@ -25,7 +23,6 @@ interface LangOption {
 }
 
 const LANG_OPTIONS: LangOption[] = [
-  // ── Indian Languages ────────────────────────────────────────────────────
   { code: "en", label: "English", native: "English", speechCode: "en-IN" },
   { code: "hi", label: "Hindi", native: "हिन्दी", speechCode: "hi-IN" },
   { code: "bn", label: "Bengali", native: "বাংলা", speechCode: "bn-IN" },
@@ -54,7 +51,6 @@ const LANG_OPTIONS: LangOption[] = [
   },
   { code: "bho", label: "Bhojpuri", native: "भोजपुरी", speechCode: "hi-IN" },
   { code: "lus", label: "Mizo", native: "Mizo ṭawng", speechCode: "en-IN" },
-  // ── Middle East & Central Asia ────────────────────────────────────────
   { code: "ar", label: "Arabic", native: "العربية", speechCode: "ar-SA" },
   { code: "fa", label: "Persian", native: "فارسی", speechCode: "fa-IR" },
   { code: "he", label: "Hebrew", native: "עברית", speechCode: "he-IL" },
@@ -78,7 +74,6 @@ const LANG_OPTIONS: LangOption[] = [
   { code: "tg", label: "Tajik", native: "Тоҷикӣ", speechCode: "tg-TJ" },
   { code: "tk", label: "Turkmen", native: "Türkmençe", speechCode: "tk-TM" },
   { code: "uz", label: "Uzbek", native: "O'zbek", speechCode: "uz-UZ" },
-  // ── European Languages ────────────────────────────────────────────────
   { code: "fr", label: "French", native: "Français", speechCode: "fr-FR" },
   { code: "es", label: "Spanish", native: "Español", speechCode: "es-ES" },
   { code: "pt", label: "Portuguese", native: "Português", speechCode: "pt-BR" },
@@ -145,7 +140,6 @@ const LANG_OPTIONS: LangOption[] = [
   { code: "fy", label: "Frisian", native: "Frysk", speechCode: "nl-NL" },
   { code: "yi", label: "Yiddish", native: "ייִדיש", speechCode: "yi" },
   { code: "tt", label: "Tatar", native: "Татар", speechCode: "tt-RU" },
-  // ── East & Southeast Asian ────────────────────────────────────────────
   {
     code: "zh",
     label: "Chinese (Simplified)",
@@ -189,7 +183,6 @@ const LANG_OPTIONS: LangOption[] = [
   { code: "ceb", label: "Cebuano", native: "Cebuano", speechCode: "tl-PH" },
   { code: "ilo", label: "Ilocano", native: "Ilocano", speechCode: "tl-PH" },
   { code: "hmn", label: "Hmong", native: "Hmong", speechCode: "hmn" },
-  // ── South & Central American ──────────────────────────────────────────
   { code: "gn", label: "Guarani", native: "Avañe'ẽ", speechCode: "es-PY" },
   { code: "qu", label: "Quechua", native: "Runasimi", speechCode: "qu" },
   { code: "ay", label: "Aymara", native: "Aymar", speechCode: "ay" },
@@ -199,7 +192,6 @@ const LANG_OPTIONS: LangOption[] = [
     native: "Kreyòl ayisyen",
     speechCode: "ht",
   },
-  // ── African Languages ──────────────────────────────────────────────────
   { code: "sw", label: "Swahili", native: "Kiswahili", speechCode: "sw-KE" },
   { code: "am", label: "Amharic", native: "አማርኛ", speechCode: "am-ET" },
   { code: "yo", label: "Yoruba", native: "Yorùbá", speechCode: "yo-NG" },
@@ -235,7 +227,6 @@ const LANG_OPTIONS: LangOption[] = [
   { code: "ak", label: "Twi (Akan)", native: "Twi", speechCode: "ak" },
   { code: "bm", label: "Bambara", native: "Bamanankan", speechCode: "bm" },
   { code: "kri", label: "Krio", native: "Krio", speechCode: "en-SL" },
-  // ── Pacific ─────────────────────────────────────────────────────────
   { code: "mi", label: "Maori", native: "te Reo Māori", speechCode: "mi-NZ" },
   { code: "sm", label: "Samoan", native: "Gagana Samoa", speechCode: "sm" },
   {
@@ -244,7 +235,6 @@ const LANG_OPTIONS: LangOption[] = [
     native: "ʻŌlelo Hawaiʻi",
     speechCode: "haw",
   },
-  // ── Other ────────────────────────────────────────────────────────────
   { code: "tr", label: "Turkish", native: "Türkçe", speechCode: "tr-TR" },
   { code: "dv", label: "Dhivehi", native: "ދިވެހި", speechCode: "dv" },
 ];
@@ -255,6 +245,77 @@ const DESTINATIONS = [
   { name: "Lakshadweep", lat: 10.5667, lng: 72.6417, flag: "🌊" },
   { name: "North-East India", lat: 26.2006, lng: 92.9376, flag: "🏔️" },
 ];
+
+// ── Qualification flow ────────────────────────────────────────────────────
+const QUAL_STEPS: Array<{ message: string; chips: string[] }> = [
+  {
+    message:
+      "✈️ To help find your perfect trip, let me ask a few quick questions!\n\nFirst — which destination are you dreaming of? 🌏",
+    chips: [
+      "🏝️ Andaman & Nicobar",
+      "🌊 Lakshadweep",
+      "🏔️ North-East India",
+      "🚢 Andaman Cruise",
+      "🤔 Not sure yet",
+    ],
+  },
+  {
+    message: "Great choice! 👥 How many people will be travelling?",
+    chips: ["Solo 🧳", "2 People 👫", "Family (3–5) 👨‍👩‍👧", "Group (6+) 🎉"],
+  },
+  {
+    message: "Perfect! 📅 When are you planning to travel?",
+    chips: [
+      "This month",
+      "1–3 months away",
+      "3–6 months away",
+      "6+ months away",
+      "Flexible / Not sure",
+    ],
+  },
+  {
+    message: "Almost done! 💰 What kind of experience are you looking for?",
+    chips: [
+      "Budget-friendly 💸",
+      "Mid-range comfort 🌟",
+      "Premium / Luxury ✨",
+      "Honeymoon 💑",
+      "Adventure / Offbeat 🧗",
+    ],
+  },
+  {
+    message:
+      "Almost there! 🙏 Just your name and WhatsApp number so our expert can reach you with a personalised quote.",
+    chips: [],
+  },
+];
+
+function buildSummaryMessage(
+  destination: string,
+  groupSize: string,
+  timeframe: string,
+  tripType: string,
+  name: string,
+  phone: string,
+): string {
+  const whatsappMsg = encodeURIComponent(
+    `Hi Holiday Pulse! I'm ${name}, interested in a ${destination} trip for ${groupSize} (${tripType}) around ${timeframe}. Please send me a personalised quote. My WhatsApp: ${phone}`,
+  );
+  const waLink = `https://wa.me/919160393773?text=${whatsappMsg}`;
+  return `🎉 Thank you, ${name}! Here's your travel profile:
+
+📍 Destination: ${destination}
+👥 Group: ${groupSize}
+📅 Travel: ${timeframe}
+💼 Experience: ${tripType}
+📱 Contact: ${phone}
+
+Our expert will reach out within 24 hours with a personalised quote!
+
+👇 Or connect right now: [WhatsApp Us](${waLink})
+
+Feel free to ask me anything about our destinations! 🌊`;
+}
 
 // ── Responses (English + key languages) ──────────────────────────────────
 const RESPONSES: Record<string, Record<string, string>> = {
@@ -343,7 +404,7 @@ async function translateText(
       return data.responseData.translatedText;
     }
   } catch {
-    return null; // signal failure
+    return null;
   }
   return text;
 }
@@ -373,6 +434,16 @@ interface Message {
   from: "user" | "bot";
   text: string;
   translating?: boolean;
+  isWA?: boolean;
+}
+
+interface ClientProfile {
+  destination: string;
+  groupSize: string;
+  timeframe: string;
+  tripType: string;
+  name: string;
+  phone: string;
 }
 
 export default function YatrikChatbot() {
@@ -384,6 +455,17 @@ export default function YatrikChatbot() {
   const [showLangPicker, setShowLangPicker] = useState(false);
   const [listening, setListening] = useState(false);
   const [muted, setMuted] = useState(false);
+  // qualStep: 0=not started, 1-4=active qual, 5=done
+  const [qualStep, setQualStep] = useState(0);
+  const clientProfileRef = useRef<ClientProfile>({
+    destination: "",
+    groupSize: "",
+    timeframe: "",
+    tripType: "",
+    name: "",
+    phone: "",
+  });
+  const qualDoneRef = useRef(false);
   const recognitionRef = useRef<{ stop: () => void } | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const langPickerRef = useRef<HTMLDivElement>(null);
@@ -391,7 +473,7 @@ export default function YatrikChatbot() {
 
   const currentLang = LANG_OPTIONS.find((l) => l.code === lang)!;
 
-  // Load voices asynchronously — browsers fire voiceschanged when ready
+  // Load voices asynchronously
   useEffect(() => {
     if (!("speechSynthesis" in window)) return;
     const loadVoices = () => {
@@ -404,11 +486,17 @@ export default function YatrikChatbot() {
     };
   }, []);
 
-  // Init greeting
+  // Init greeting + trigger first qual question
   // biome-ignore lint/correctness/useExhaustiveDependencies: intentional
   useEffect(() => {
     if (open && messages.length === 0) {
       addBotMessage(getResponse("greeting", "en"), lang);
+      if (!qualDoneRef.current) {
+        setTimeout(() => {
+          addBotMessage(QUAL_STEPS[0].message, lang);
+          setQualStep(1);
+        }, 1400);
+      }
     }
   }, [open]);
 
@@ -432,7 +520,11 @@ export default function YatrikChatbot() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  async function addBotMessage(englishText: string, targetLang?: string) {
+  async function addBotMessage(
+    englishText: string,
+    targetLang?: string,
+    isWA = false,
+  ) {
     const resolvedLang = targetLang ?? lang;
     const bucket = Object.values(RESPONSES).find((b) =>
       Object.values(b).includes(englishText),
@@ -453,14 +545,16 @@ export default function YatrikChatbot() {
         : translated!;
       setMessages((prev) =>
         prev.map((m) =>
-          m.id === id ? { ...m, text: displayText, translating: false } : m,
+          m.id === id
+            ? { ...m, text: displayText, translating: false, isWA }
+            : m,
         ),
       );
       if (!muted) speak(failed ? englishText : displayText, resolvedLang);
     } else {
       setMessages((prev) => [
         ...prev,
-        { id: Date.now().toString(), from: "bot", text: englishText },
+        { id: Date.now().toString(), from: "bot", text: englishText, isWA },
       ]);
       if (!muted) speak(englishText, resolvedLang);
     }
@@ -468,27 +562,17 @@ export default function YatrikChatbot() {
 
   function speak(text: string, langCode: string) {
     if (!("speechSynthesis" in window)) return;
-
-    // Strip emojis and markdown characters
     const cleanText = text
       .replace(/[\u{1F300}-\u{1FFFF}]/gu, "")
       .replace(/[_*~`]/g, "");
-
     const langOption = LANG_OPTIONS.find((l) => l.code === langCode);
     const speechCode = langOption?.speechCode ?? langCode;
     const langPrefix = speechCode.split("-")[0];
-
     const voices = voicesRef.current;
     let matchedVoice: SpeechSynthesisVoice | undefined;
-
-    // Priority a: exact match
     matchedVoice = voices.find((v) => v.lang === speechCode);
-    // Priority b: prefix match
-    if (!matchedVoice) {
+    if (!matchedVoice)
       matchedVoice = voices.find((v) => v.lang.startsWith(langPrefix));
-    }
-    // Priority c: no specific voice — browser picks
-
     window.speechSynthesis.cancel();
     const utt = new SpeechSynthesisUtterance(cleanText);
     utt.lang = speechCode;
@@ -496,17 +580,75 @@ export default function YatrikChatbot() {
     window.speechSynthesis.speak(utt);
   }
 
-  async function handleSend() {
-    const text = input.trim();
+  function advanceQualStep(answer: string, currentStep: number) {
+    const profile = clientProfileRef.current;
+    if (currentStep === 1) profile.destination = answer;
+    else if (currentStep === 2) profile.groupSize = answer;
+    else if (currentStep === 3) profile.timeframe = answer;
+    else if (currentStep === 4) profile.tripType = answer;
+    else if (currentStep === 5) {
+      // Parse name and phone from free-text entry
+      const phoneMatch = answer.match(/[\d\s\+\-]{7,}/);
+      if (phoneMatch) {
+        profile.phone = phoneMatch[0].trim();
+        profile.name =
+          answer
+            .replace(phoneMatch[0], "")
+            .replace(/[,\-\/]/g, "")
+            .trim() || "Valued Client";
+      } else {
+        profile.name = answer.trim();
+        profile.phone = "Not provided";
+      }
+    }
+
+    const nextStep = currentStep + 1;
+    if (nextStep <= 5) {
+      setQualStep(nextStep);
+      setTimeout(() => {
+        addBotMessage(QUAL_STEPS[nextStep - 1].message, lang);
+      }, 700);
+    } else {
+      setQualStep(6);
+      qualDoneRef.current = true;
+      const summary = buildSummaryMessage(
+        profile.destination,
+        profile.groupSize,
+        profile.timeframe,
+        profile.tripType,
+        profile.name,
+        profile.phone,
+      );
+      setTimeout(() => {
+        addBotMessage(summary, lang, true);
+      }, 700);
+    }
+  }
+
+  async function handleSend(overrideText?: string) {
+    const text = (overrideText ?? input).trim();
     if (!text) return;
     setMessages((prev) => [
       ...prev,
       { id: Date.now().toString(), from: "user", text },
     ]);
     setInput("");
-    const intent = detectIntent(text);
-    const englishResponse = getResponse(intent, "en");
-    setTimeout(() => addBotMessage(englishResponse, lang), 600);
+
+    if (qualStep >= 1 && qualStep <= 5) {
+      const step = qualStep;
+      advanceQualStep(text, step);
+      // Also respond to destination questions inline
+      const intent = detectIntent(text);
+      if (["andaman", "lakshadweep", "northeast"].includes(intent)) {
+        setTimeout(() => {
+          addBotMessage(getResponse(intent, "en"), lang);
+        }, 1400);
+      }
+    } else {
+      const intent = detectIntent(text);
+      const englishResponse = getResponse(intent, "en");
+      setTimeout(() => addBotMessage(englishResponse, lang), 600);
+    }
   }
 
   function handleLangChange(code: LangCode) {
@@ -514,8 +656,22 @@ export default function YatrikChatbot() {
     setShowLangPicker(false);
     setLangSearch("");
     setMessages([]);
+    setQualStep(0);
+    qualDoneRef.current = false;
+    clientProfileRef.current = {
+      destination: "",
+      groupSize: "",
+      timeframe: "",
+      tripType: "",
+      name: "",
+      phone: "",
+    };
     const englishGreeting = getResponse("greeting", "en");
     setTimeout(() => addBotMessage(englishGreeting, code), 100);
+    setTimeout(() => {
+      addBotMessage(QUAL_STEPS[0].message, code);
+      setQualStep(1);
+    }, 1600);
   }
 
   function startListening() {
@@ -566,6 +722,9 @@ export default function YatrikChatbot() {
       l.native.toLowerCase().includes(langSearch.toLowerCase()),
   );
 
+  const activeChips =
+    qualStep >= 1 && qualStep <= 5 ? QUAL_STEPS[qualStep - 1].chips : [];
+
   return (
     <>
       {/* Floating button */}
@@ -598,7 +757,7 @@ export default function YatrikChatbot() {
             exit={{ opacity: 0, y: 60, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="fixed bottom-6 right-6 z-50 w-[360px] max-w-[calc(100vw-2rem)] rounded-2xl overflow-hidden shadow-2xl flex flex-col"
-            style={{ height: 520 }}
+            style={{ height: 580 }}
           >
             {/* Header */}
             <div
@@ -620,7 +779,6 @@ export default function YatrikChatbot() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                {/* Lang picker */}
                 <div ref={langPickerRef} className="relative">
                   <button
                     type="button"
@@ -710,14 +868,35 @@ export default function YatrikChatbot() {
               ))}
             </div>
 
+            {/* Qual progress bar */}
+            {qualStep >= 1 && qualStep <= 5 && (
+              <div className="px-3 pt-2 pb-1 bg-white border-b border-gray-100">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-[10px] text-gray-400 font-medium">
+                    Quick Enquiry
+                  </span>
+                  <span className="text-[10px] text-purple-500 font-semibold">
+                    {qualStep}/5
+                  </span>
+                </div>
+                <div className="w-full h-1 rounded-full bg-gray-100 overflow-hidden">
+                  <div
+                    className="h-full rounded-full transition-all duration-500"
+                    style={{
+                      width: `${(qualStep / 5) * 100}%`,
+                      background: "linear-gradient(90deg, #0ea5e9, #7c3aed)",
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+
             {/* Messages */}
             <div className="flex-1 overflow-y-auto px-3 py-3 space-y-3 bg-gray-50">
               {messages.map((msg) => (
                 <div
                   key={msg.id}
-                  className={`flex ${
-                    msg.from === "user" ? "justify-end" : "justify-start"
-                  }`}
+                  className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"}`}
                 >
                   {msg.from === "bot" && (
                     <div
@@ -755,6 +934,17 @@ export default function YatrikChatbot() {
                     ) : (
                       msg.text
                     )}
+                    {msg.isWA && !msg.translating && (
+                      <a
+                        href="https://wa.me/919160393773?text=Hi%20Holiday%20Pulse!%20I'm%20interested%20in%20a%20trip."
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-2 flex items-center gap-1.5 bg-green-500 hover:bg-green-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full w-fit transition-colors"
+                      >
+                        <span>💬</span>
+                        <span>Chat on WhatsApp</span>
+                      </a>
+                    )}
                     {msg.from === "bot" &&
                       !msg.translating &&
                       msg.text.includes("°") && (
@@ -769,11 +959,31 @@ export default function YatrikChatbot() {
               <div ref={endRef} />
             </div>
 
+            {/* Quick reply chips */}
+            {activeChips.length > 0 && (
+              <div className="px-3 py-2 bg-white border-t border-gray-100 flex flex-wrap gap-1.5">
+                {activeChips.map((chip) => (
+                  <button
+                    key={chip}
+                    type="button"
+                    onClick={() => handleSend(chip)}
+                    className="text-xs px-3 py-1.5 rounded-full border border-purple-200 bg-white text-purple-700 hover:bg-purple-50 hover:border-purple-400 transition-colors font-medium whitespace-nowrap"
+                  >
+                    {chip}
+                  </button>
+                ))}
+              </div>
+            )}
+
             {/* Input */}
             <div className="px-3 py-2 bg-white border-t border-gray-100 flex items-center gap-2">
               <input
                 className="flex-1 text-sm rounded-full border border-gray-200 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-300 bg-gray-50"
-                placeholder="Message YATRIK..."
+                placeholder={
+                  qualStep >= 1 && qualStep <= 5
+                    ? "Type or tap a button above..."
+                    : "Message YATRIK..."
+                }
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
@@ -791,7 +1001,7 @@ export default function YatrikChatbot() {
               </button>
               <button
                 type="button"
-                onClick={handleSend}
+                onClick={() => handleSend()}
                 disabled={!input.trim()}
                 className="p-2 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-white disabled:opacity-40 hover:opacity-90 transition-opacity"
               >
