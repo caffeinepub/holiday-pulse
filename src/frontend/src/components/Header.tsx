@@ -14,6 +14,7 @@ interface NavLink {
   dest: string | null;
   highlight?: boolean;
   flashSale?: boolean;
+  specialOffer?: boolean;
 }
 
 export function Header({ onAdminClick, bannerHeight = 0 }: HeaderProps) {
@@ -42,6 +43,12 @@ export function Header({ onAdminClick, bannerHeight = 0 }: HeaderProps) {
       dest: null,
       flashSale: true,
     },
+    {
+      label: "🎯 Special Offer",
+      href: "/offer",
+      dest: null,
+      specialOffer: true,
+    },
     { label: "Gallery", href: "#gallery", dest: null },
     { label: "Reviews", href: "#reviews", dest: null },
     { label: "📹 Videos", href: "#video-testimonials", dest: null },
@@ -56,6 +63,30 @@ export function Header({ onAdminClick, bannerHeight = 0 }: HeaderProps) {
       );
     }
     setMenuOpen(false);
+  };
+
+  const getLinkClass = (link: NavLink) => {
+    if (link.flashSale)
+      return "text-sm font-bold px-3 py-1.5 rounded-full shadow-sm transition-all text-white hover:opacity-90";
+    if (link.specialOffer)
+      return "text-sm font-bold px-3 py-1.5 rounded-full shadow-sm transition-all text-white hover:opacity-90";
+    if (link.highlight)
+      return "bg-teal-500 text-white text-sm font-medium px-3 py-1.5 rounded-full hover:bg-teal-600 shadow-sm transition-colors";
+    return "text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors";
+  };
+
+  const getLinkStyle = (link: NavLink): React.CSSProperties | undefined => {
+    if (link.flashSale)
+      return {
+        background: "linear-gradient(135deg, #ea580c, #dc2626)",
+        boxShadow: "0 2px 8px rgba(220,38,38,0.35)",
+      };
+    if (link.specialOffer)
+      return {
+        background: "linear-gradient(135deg, #d97706, #b45309)",
+        boxShadow: "0 2px 8px rgba(180,83,9,0.35)",
+      };
+    return undefined;
   };
 
   return (
@@ -91,21 +122,8 @@ export function Header({ onAdminClick, bannerHeight = 0 }: HeaderProps) {
                 href={link.href}
                 data-ocid="header.link"
                 onClick={() => handleNavClick(link)}
-                className={
-                  link.flashSale
-                    ? "text-sm font-bold px-3 py-1.5 rounded-full shadow-sm transition-all text-white hover:opacity-90"
-                    : link.highlight
-                      ? "bg-teal-500 text-white text-sm font-medium px-3 py-1.5 rounded-full hover:bg-teal-600 shadow-sm transition-colors"
-                      : "text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors"
-                }
-                style={
-                  link.flashSale
-                    ? {
-                        background: "linear-gradient(135deg, #ea580c, #dc2626)",
-                        boxShadow: "0 2px 8px rgba(220,38,38,0.35)",
-                      }
-                    : undefined
-                }
+                className={getLinkClass(link)}
+                style={getLinkStyle(link)}
               >
                 {link.label}
               </a>
@@ -167,9 +185,11 @@ export function Header({ onAdminClick, bannerHeight = 0 }: HeaderProps) {
                   className={
                     link.flashSale
                       ? "text-sm font-bold text-orange-600 py-1"
-                      : link.highlight
-                        ? "text-sm font-semibold text-teal-600 py-1"
-                        : "text-sm font-medium text-gray-700 hover:text-teal-600 py-1"
+                      : link.specialOffer
+                        ? "text-sm font-bold text-amber-600 py-1"
+                        : link.highlight
+                          ? "text-sm font-semibold text-teal-600 py-1"
+                          : "text-sm font-medium text-gray-700 hover:text-teal-600 py-1"
                   }
                 >
                   {link.label}

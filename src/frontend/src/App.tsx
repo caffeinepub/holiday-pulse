@@ -12,6 +12,7 @@ import { ClientsSection } from "./components/ClientsSection";
 import { ContactSection } from "./components/ContactSection";
 import YatrikChatbot from "./components/DarlingChatbot";
 import { EnquiryModal } from "./components/EnquiryModal";
+import { ExitIntentPopup } from "./components/ExitIntentPopup";
 import { FeaturedCruiseBanner } from "./components/FeaturedCruiseBanner";
 import { FlashSaleBanner } from "./components/FlashSaleBanner";
 import { FlashSaleSection } from "./components/FlashSaleSection";
@@ -22,13 +23,17 @@ import { HappyClientsPhotoWall } from "./components/HappyClientsPhotoWall";
 import { Header } from "./components/Header";
 import { HeroScene } from "./components/HeroScene";
 import { PackagesSection } from "./components/PackagesSection";
+import { ReferAndSave } from "./components/ReferAndSave";
+import { SocialProofToast } from "./components/SocialProofToast";
 import { StatsBar } from "./components/StatsBar";
 import { TravelBlogSection } from "./components/TravelBlogSection";
 import { TripFinder } from "./components/TripFinder";
 import { VideoTestimonialsSection } from "./components/VideoTestimonialsSection";
+import { WhatsAppFloatingCTA } from "./components/WhatsAppFloatingCTA";
 import { WhyChooseSection } from "./components/WhyChooseSection";
 import type { PackageData } from "./data/packages";
 import { AdminPage } from "./pages/AdminPage";
+import { LandingOfferPage } from "./pages/LandingOfferPage";
 import { QuotationPage } from "./pages/QuotationPage";
 
 const BANNER_HEIGHT = 52; // px — height of the FlashSaleBanner bar
@@ -89,6 +94,8 @@ function HomePage() {
         <WhyChooseSection />
         <TravelBlogSection />
         <ContactSection />
+        {/* Refer & Save — between testimonials/blog and footer */}
+        <ReferAndSave />
       </main>
       <Footer />
       <EnquiryModal
@@ -100,6 +107,12 @@ function HomePage() {
       <BackgroundMusic />
       {/* YATRIK chatbot — bottom-right */}
       <YatrikChatbot />
+      {/* WhatsApp floating CTA — bottom-right above chatbot */}
+      <WhatsAppFloatingCTA />
+      {/* Social proof toast — bottom-left */}
+      <SocialProofToast />
+      {/* Exit intent popup */}
+      <ExitIntentPopup />
     </div>
   );
 }
@@ -131,10 +144,17 @@ const quotationRoute = createRoute({
   component: QuotationPage,
 });
 
+const offerRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/offer",
+  component: LandingOfferPage,
+});
+
 const routeTree = rootRoute.addChildren([
   homeRoute,
   adminRoute,
   quotationRoute,
+  offerRoute,
 ]);
 
 const router = createRouter({ routeTree });

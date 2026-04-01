@@ -91,3 +91,32 @@
     font-family: "Poppins", sans-serif;
   }
 }
+
+@keyframes wa-pulse {
+  0%,
+  100% {
+    box-shadow: 0 4px 24px 0 rgba(37, 211, 102, 0.45);
+  }
+  50% {
+    box-shadow: 0 4px 36px 8px rgba(37, 211, 102, 0.7);
+  }
+}
+
+.wa-pulse {
+  animation: wa-pulse 2s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.15s ease-out forwards;
+}

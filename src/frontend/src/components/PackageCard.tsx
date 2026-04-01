@@ -16,6 +16,16 @@ function getBestMonths(pkgId: number): string {
   return "Oct – May";
 }
 
+function getSeatsLeft(name: string): number {
+  return (name.charCodeAt(0) % 4) + 2;
+}
+
+function getViewedToday(name: string): number {
+  return (
+    ((name.charCodeAt(0) * 7 + name.charCodeAt(1 % name.length)) % 31) + 10
+  );
+}
+
 const categoryColors: Record<string, string> = {
   Budget: "bg-green-100 text-green-700",
   Explorer: "bg-blue-100 text-blue-700",
@@ -60,6 +70,8 @@ export function PackageCard({
   const [showItinerary, setShowItinerary] = useState(false);
   const rev = categoryReviews[pkg.category] ?? { rating: 4.9, count: 100 };
   const icons = isCruise ? cruiseActivityIcons : activityIcons;
+  const seatsLeft = getSeatsLeft(pkg.name);
+  const viewedToday = getViewedToday(pkg.name);
 
   return (
     <motion.div
@@ -86,6 +98,15 @@ export function PackageCard({
           className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-semibold ${categoryColors[pkg.category] ?? "bg-gray-100 text-gray-700"}`}
         >
           {pkg.category}
+        </div>
+        {/* Scarcity badge */}
+        <div className="absolute bottom-3 right-3 flex flex-col items-end gap-1">
+          <span className="px-2.5 py-1 bg-red-500/95 text-white text-[10px] font-bold rounded-full shadow-lg flex items-center gap-1">
+            🔥 Only {seatsLeft} seats left!
+          </span>
+          <span className="px-2.5 py-1 bg-orange-400/90 text-white text-[10px] font-semibold rounded-full shadow">
+            ⚡ {viewedToday} viewed today
+          </span>
         </div>
         {/* Cruise badge */}
         {isCruise && (
