@@ -70,6 +70,23 @@ export function PackagesSection({ onBookNow }: PackagesSectionProps) {
     return () => window.removeEventListener("selectDestination", handler);
   }, []);
 
+  // Listen for hp:open-tab events (e.g. from Featured Cruise Banner CTA)
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent<string>).detail;
+      if (
+        detail === "andaman" ||
+        detail === "andaman-cruise" ||
+        detail === "lakshadweep" ||
+        detail === "northeast"
+      ) {
+        setActiveDestination(detail as Destination);
+      }
+    };
+    window.addEventListener("hp:open-tab", handler);
+    return () => window.removeEventListener("hp:open-tab", handler);
+  }, []);
+
   const config = destinationConfig[activeDestination];
 
   return (

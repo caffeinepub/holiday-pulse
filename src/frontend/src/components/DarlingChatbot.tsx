@@ -332,7 +332,7 @@ function getResponse(intent: string, lang: LangCode): string {
 async function translateText(
   text: string,
   targetLang: string,
-): Promise<string> {
+): Promise<string | null> {
   if (targetLang === "en") return text;
   try {
     const res = await fetch(
@@ -343,7 +343,7 @@ async function translateText(
       return data.responseData.translatedText;
     }
   } catch {
-    // fall back to original
+    return null; // signal failure
   }
   return text;
 }
@@ -433,12 +433,16 @@ export default function YatrikChatbot() {
         { id, from: "bot", text: "🌐 Translating...", translating: true },
       ]);
       const translated = await translateText(englishText, resolvedLang);
+      const failed = translated === null;
+      const displayText = failed
+        ? `${englishText}\n\n_(Translation unavailable — showing in English)_`
+        : translated!;
       setMessages((prev) =>
         prev.map((m) =>
-          m.id === id ? { ...m, text: translated, translating: false } : m,
+          m.id === id ? { ...m, text: displayText, translating: false } : m,
         ),
       );
-      if (!muted) speak(translated);
+      if (!muted) speak(failed ? englishText : displayText);
     } else {
       setMessages((prev) => [
         ...prev,

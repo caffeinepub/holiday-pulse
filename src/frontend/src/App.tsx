@@ -12,11 +12,13 @@ import { ClientsSection } from "./components/ClientsSection";
 import { ContactSection } from "./components/ContactSection";
 import YatrikChatbot from "./components/DarlingChatbot";
 import { EnquiryModal } from "./components/EnquiryModal";
+import { FeaturedCruiseBanner } from "./components/FeaturedCruiseBanner";
 import { FlashSaleBanner } from "./components/FlashSaleBanner";
 import { FlashSaleSection } from "./components/FlashSaleSection";
 import { FlickerBookSection } from "./components/FlickerBookSection";
 import { Footer } from "./components/Footer";
 import { GallerySection } from "./components/GallerySection";
+import { HappyClientsPhotoWall } from "./components/HappyClientsPhotoWall";
 import { Header } from "./components/Header";
 import { HeroScene } from "./components/HeroScene";
 import { PackagesSection } from "./components/PackagesSection";
@@ -71,6 +73,7 @@ function HomePage() {
       <main>
         <HeroScene onExploreClick={scrollToPackages} />
         <FlashSaleSection onBookNow={handleFlashSaleBookNow} />
+        <FeaturedCruiseBanner />
         <TripFinder />
         <StatsBar />
         <div ref={packagesRef} id="packages">
@@ -78,6 +81,7 @@ function HomePage() {
         </div>
         <GallerySection />
         <FlickerBookSection />
+        <HappyClientsPhotoWall />
         <ClientsSection />
         <WhyChooseSection />
         <ContactSection />
