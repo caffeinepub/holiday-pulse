@@ -1,26 +1,25 @@
 # Holiday Pulse
 
 ## Current State
-Full-featured travel website with packages for Andaman, Lakshadweep, North-East India, and Andaman Cruise. Homepage has: FlashSaleBanner, Header, HeroScene, FlashSaleSection, TripFinder, StatsBar, PackagesSection, GallerySection, FlickerBookSection, ClientsSection (testimonials carousel), WhyChooseSection, ContactSection, Footer.
+Full-featured travel website with packages for Andaman, Lakshadweep, North-East India, and Andaman Cruise. Features include Flash Sale banner, Featured Cruise Banner, Trip Finder, Weather section, Flicker Book, Happy Clients Photo Wall, Testimonials carousel, WhyChoose, Contact, B2B Quotation page, Admin page, and Yatrik chatbot. App.tsx renders sections in order: HeroScene → FlashSaleSection → FeaturedCruiseBanner → TripFinder → StatsBar → PackagesSection → GallerySection → FlickerBookSection → HappyClientsPhotoWall → ClientsSection → WhyChooseSection → ContactSection.
 
 ## Requested Changes (Diff)
 
 ### Add
-- **Featured Cruise Banner**: A visually striking full-width section placed between FlashSaleSection and TripFinder (or just after PackagesSection). Features the `andaman-featured-cruise-banner.dim_1200x500.jpg` image as background with bold overlay text promoting Andaman Cruise packages (3, 5, 7 nights), key highlights (luxury cabins, shore excursions, all meals), and a prominent "Explore Cruise Packages" CTA button that scrolls to the Cruise tab in PackagesSection.
-- **Our Happy Clients Photo Wall**: A new section placed just before ClientsSection (testimonials). Shows a masonry/grid photo wall with 4 real trip photos of happy clients:
-  - `/assets/generated/happy-clients-andaman.dim_400x300.jpg` — Andaman group
-  - `/assets/generated/happy-clients-lakshadweep.dim_400x300.jpg` — Lakshadweep couple
-  - `/assets/generated/happy-clients-northeast.dim_400x300.jpg` — North-East family
-  - `/assets/generated/happy-clients-cruise.dim_400x300.jpg` — Cruise deck
-  Each photo has a destination label badge overlay and a hover zoom effect. Section heading: "Our Happy Clients".
+- **VideoTestimonialsSection** component: A visually rich section showcasing 3–4 video testimonials from happy clients. Since we cannot embed real client videos, use YouTube iframe embeds of high-quality travel/tourism testimonial-style videos (public YouTube URLs). Show them in a responsive grid/carousel with client name, destination visited, and a short quote below each video card.
+- **TravelBlogSection** component: A travel blog/guides section with 6 static article cards covering topics like "Best Time to Visit Andaman", "Complete Lakshadweep Travel Guide", "Top Things to Do in North-East India", "Andaman Cruise: What to Expect", "Andaman on a Budget", "Hidden Gems of Lakshadweep". Each card shows: cover image (use gradient + emoji placeholder), title, excerpt (2-3 sentences), read time, destination tag, and a "Read More" button that opens a modal with the full article content. This boosts SEO with keyword-rich content.
+- Add **"📹 Videos"** nav link in Header pointing to `#video-testimonials`
+- Add **"📖 Blog"** nav link in Header pointing to `#travel-blog`
 
 ### Modify
-- App.tsx: Add the two new section components (FeaturedCruiseBanner, HappyClientsPhotoWall) in the correct positions.
+- **App.tsx**: Insert `<VideoTestimonialsSection />` after `<HappyClientsPhotoWall />` and before `<ClientsSection />`. Insert `<TravelBlogSection />` after `<WhyChooseSection />` and before `<ContactSection />`.
+- **Header.tsx**: Add "📹 Videos" and "📖 Blog" nav links to the navLinks array.
 
 ### Remove
 - Nothing removed.
 
 ## Implementation Plan
-1. Create `src/frontend/src/components/FeaturedCruiseBanner.tsx` — full-width banner with background image, gradient overlay, headline, highlights, and CTA button. CTA scrolls to `#packages` and programmatically clicks/activates the Cruise tab.
-2. Create `src/frontend/src/components/HappyClientsPhotoWall.tsx` — responsive grid photo wall with 4 images, destination badge overlays, hover zoom, section title "Our Happy Clients".
-3. Update `App.tsx` to import and place these two components at the correct positions in the homepage layout.
+1. Create `src/frontend/src/components/VideoTestimonialsSection.tsx` with 4 YouTube video embeds in a responsive 2x2 grid, each with a card wrapper, client name, destination badge, and short quote.
+2. Create `src/frontend/src/components/TravelBlogSection.tsx` with 6 article cards in a 3-column grid (2 on tablet, 1 on mobile), with a modal for full article content.
+3. Update `App.tsx` to import and render both new sections.
+4. Update `Header.tsx` navLinks to include the two new nav items.

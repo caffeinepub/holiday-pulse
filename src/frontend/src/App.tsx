@@ -23,7 +23,9 @@ import { Header } from "./components/Header";
 import { HeroScene } from "./components/HeroScene";
 import { PackagesSection } from "./components/PackagesSection";
 import { StatsBar } from "./components/StatsBar";
+import { TravelBlogSection } from "./components/TravelBlogSection";
 import { TripFinder } from "./components/TripFinder";
+import { VideoTestimonialsSection } from "./components/VideoTestimonialsSection";
 import { WhyChooseSection } from "./components/WhyChooseSection";
 import type { PackageData } from "./data/packages";
 import { AdminPage } from "./pages/AdminPage";
@@ -82,8 +84,10 @@ function HomePage() {
         <GallerySection />
         <FlickerBookSection />
         <HappyClientsPhotoWall />
+        <VideoTestimonialsSection />
         <ClientsSection />
         <WhyChooseSection />
+        <TravelBlogSection />
         <ContactSection />
       </main>
       <Footer />

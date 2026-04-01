@@ -44,6 +44,8 @@ export function Header({ onAdminClick, bannerHeight = 0 }: HeaderProps) {
     },
     { label: "Gallery", href: "#gallery", dest: null },
     { label: "Reviews", href: "#reviews", dest: null },
+    { label: "📹 Videos", href: "#video-testimonials", dest: null },
+    { label: "📖 Blog", href: "#travel-blog", dest: null },
     { label: "Contact", href: "#contact", dest: null },
   ];
 
@@ -82,7 +84,7 @@ export function Header({ onAdminClick, bannerHeight = 0 }: HeaderProps) {
           </a>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-4 xl:gap-5">
+          <nav className="hidden lg:flex items-center gap-3 xl:gap-4">
             {navLinks.map((link) => (
               <a
                 key={link.label}
