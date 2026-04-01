@@ -25,6 +25,7 @@ import { TripFinder } from "./components/TripFinder";
 import { WhyChooseSection } from "./components/WhyChooseSection";
 import type { PackageData } from "./data/packages";
 import { AdminPage } from "./pages/AdminPage";
+import { QuotationPage } from "./pages/QuotationPage";
 
 const BANNER_HEIGHT = 52; // px — height of the FlashSaleBanner bar
 
@@ -116,7 +117,17 @@ const adminRoute = createRoute({
   component: AdminPage,
 });
 
-const routeTree = rootRoute.addChildren([homeRoute, adminRoute]);
+const quotationRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/quotation",
+  component: QuotationPage,
+});
+
+const routeTree = rootRoute.addChildren([
+  homeRoute,
+  adminRoute,
+  quotationRoute,
+]);
 
 const router = createRouter({ routeTree });
 
