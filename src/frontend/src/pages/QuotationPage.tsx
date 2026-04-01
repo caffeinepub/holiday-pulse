@@ -10,7 +10,16 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Plus, Printer, RefreshCw, Trash2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Check,
+  ClipboardCopy,
+  Mail,
+  Plus,
+  Printer,
+  RefreshCw,
+  Trash2,
+} from "lucide-react";
 import { useRef, useState } from "react";
 
 const PACKAGES = [
@@ -100,6 +109,7 @@ const initialState = () => ({
 
 export function QuotationPage() {
   const [form, setForm] = useState(initialState);
+  const [copied, setCopied] = useState(false);
   const printRef = useRef<HTMLDivElement>(null);
 
   const set = (key: keyof ReturnType<typeof initialState>, value: unknown) =>
@@ -144,7 +154,79 @@ export function QuotationPage() {
   const gstAmt = (taxableAmount * (form.gstPercent || 0)) / 100;
   const grandTotal = taxableAmount + gstAmt;
 
+  const buildSummaryText = () => {
+    const lines = [
+      "HOLIDAY PULSE — TRAVEL QUOTATION",
+      "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+      `Quotation #: ${form.quotationNumber}`,
+      `Date: ${formatDate(form.quotationDate)}`,
+      `Valid Until: ${formatDate(form.validUntil)}`,
+      "",
+      "TO:",
+      form.clientCompany || "Client Company Name",
+      form.contactPerson ? `Attn: ${form.contactPerson}` : "",
+      form.clientPhone ? `Phone: ${form.clientPhone}` : "",
+      form.clientEmail ? `Email: ${form.clientEmail}` : "",
+      "",
+      "PACKAGE SUMMARY",
+      "─────────────────────────────────",
+      `Package: ${form.destination || "—"}`,
+      `Travel Dates: ${
+        form.travelFrom && form.travelTo
+          ? `${formatDate(form.travelFrom)} to ${formatDate(form.travelTo)}`
+          : form.travelFrom
+            ? formatDate(form.travelFrom)
+            : "—"
+      }`,
+      `Travellers: ${form.adults} Adult${form.adults !== 1 ? "s" : ""}${
+        form.children > 0
+          ? `, ${form.children} Child${form.children !== 1 ? "ren" : ""}`
+          : ""
+      }`,
+      "",
+      "PRICE BREAKUP",
+      "─────────────────────────────────",
+      `Base Package (${totalPax} pax × ${formatINR(form.basePrice)}): ${formatINR(baseTotal)}`,
+      ...form.addons
+        .filter((a) => a.description || a.amount)
+        .map((a) => `${a.description || "Add-on"}: ${formatINR(a.amount)}`),
+      `Subtotal: ${formatINR(subtotal)}`,
+      discountAmt > 0 ? `Discount: -${formatINR(discountAmt)}` : "",
+      `Taxable Amount: ${formatINR(taxableAmount)}`,
+      `GST @ ${form.gstPercent}%: ${formatINR(gstAmt)}`,
+      "─────────────────────────────────",
+      `GRAND TOTAL: ${formatINR(grandTotal)}`,
+      "",
+      form.specialNotes ? `Special Notes: ${form.specialNotes}` : "",
+      "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+      "Holiday Pulse | www.holidaypulse.ind",
+      "info@holidaypulse.ind | +91-98765 43210",
+    ]
+      .filter((l) => l !== "")
+      .join("\n");
+    return lines;
+  };
+
   const handlePrint = () => window.print();
+
+  const handleCopy = async () => {
+    const text = buildSummaryText();
+    await navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
+
+  const handleEmail = () => {
+    const text = buildSummaryText();
+    const subject = encodeURIComponent(
+      `Travel Quotation ${form.quotationNumber} — ${form.destination || "Holiday Pulse"}`,
+    );
+    const body = encodeURIComponent(text);
+    const to = encodeURIComponent(
+      "info@holidaypulse.ind,siva.samatham@gmail.com",
+    );
+    window.open(`mailto:${to}?subject=${subject}&body=${body}`, "_blank");
+  };
 
   const handleWhatsApp = () => {
     const lines = [
@@ -232,7 +314,7 @@ export function QuotationPage() {
               B2B Quotation Generator
             </span>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap justify-end">
             <Button
               variant="outline"
               size="sm"
@@ -240,6 +322,34 @@ export function QuotationPage() {
               data-ocid="quotation.secondary_button"
             >
               <RefreshCw className="w-4 h-4 mr-1" /> Reset
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={handleCopy}
+              data-ocid="quotation.copy_button"
+              className={
+                copied
+                  ? "border-emerald-500 text-emerald-600 hover:bg-emerald-50"
+                  : "border-slate-400 text-slate-600 hover:bg-slate-50"
+              }
+            >
+              {copied ? (
+                <Check className="w-4 h-4 mr-1" />
+              ) : (
+                <ClipboardCopy className="w-4 h-4 mr-1" />
+              )}
+              {copied ? "Copied!" : "Copy"}
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={handleEmail}
+              data-ocid="quotation.email_button"
+              className="border-blue-500 text-blue-600 hover:bg-blue-50"
+            >
+              <Mail className="w-4 h-4 mr-1" />
+              Send Email
             </Button>
             <Button
               size="sm"
@@ -578,13 +688,38 @@ export function QuotationPage() {
             </section>
 
             {/* Action buttons bottom */}
-            <div className="flex gap-3 pt-2">
+            <div className="flex flex-wrap gap-2 pt-2">
               <Button
                 className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
                 onClick={handlePrint}
                 data-ocid="quotation.submit_button"
               >
                 <Printer className="w-4 h-4 mr-2" /> Print / Download PDF
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handleCopy}
+                data-ocid="quotation.copy_button"
+                className={
+                  copied
+                    ? "border-emerald-500 text-emerald-600 hover:bg-emerald-50"
+                    : "border-slate-400 text-slate-600 hover:bg-slate-50"
+                }
+              >
+                {copied ? (
+                  <Check className="w-4 h-4 mr-1" />
+                ) : (
+                  <ClipboardCopy className="w-4 h-4 mr-1" />
+                )}
+                {copied ? "Copied!" : "Copy"}
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handleEmail}
+                data-ocid="quotation.email_button"
+                className="border-blue-500 text-blue-600 hover:bg-blue-50"
+              >
+                <Mail className="w-4 h-4 mr-1" /> Email
               </Button>
               <Button
                 variant="outline"
