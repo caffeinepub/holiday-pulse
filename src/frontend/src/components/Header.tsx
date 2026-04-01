@@ -8,16 +8,6 @@ interface HeaderProps {
   bannerHeight?: number;
 }
 
-interface NavLink {
-  label: string;
-  href: string;
-  dest: string | null;
-  highlight?: boolean;
-  flashSale?: boolean;
-  specialOffer?: boolean;
-  referEarn?: boolean;
-}
-
 export function Header({ onAdminClick, bannerHeight = 0 }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -28,79 +18,10 @@ export function Header({ onAdminClick, bannerHeight = 0 }: HeaderProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks: NavLink[] = [
-    { label: "Andaman", href: "#packages", dest: "andaman" },
-    { label: "Lakshadweep", href: "#packages", dest: "lakshadweep" },
-    { label: "North-East", href: "#packages", dest: "northeast" },
-    {
-      label: "✈ Plan My Trip",
-      href: "#trip-finder",
-      dest: null,
-      highlight: true,
-    },
-    {
-      label: "🔥 Flash Sale",
-      href: "#flash-sale",
-      dest: null,
-      flashSale: true,
-    },
-    {
-      label: "🎯 Special Offer",
-      href: "/offer",
-      dest: null,
-      specialOffer: true,
-    },
-    {
-      label: "🎁 Refer & Earn",
-      href: "#refer",
-      dest: null,
-      referEarn: true,
-    },
-    { label: "Gallery", href: "#gallery", dest: null },
-    { label: "Reviews", href: "#reviews", dest: null },
-    { label: "📹 Videos", href: "#video-testimonials", dest: null },
-    { label: "📖 Blog", href: "#travel-blog", dest: null },
-    { label: "Contact", href: "#contact", dest: null },
-  ];
-
-  const handleNavClick = (link: NavLink) => {
-    if (link.dest) {
-      window.dispatchEvent(
-        new CustomEvent("selectDestination", { detail: link.dest }),
-      );
-    }
+  const scrollToContact = () => {
     setMenuOpen(false);
-  };
-
-  const getLinkClass = (link: NavLink) => {
-    if (link.flashSale)
-      return "text-sm font-bold px-3 py-1.5 rounded-full shadow-sm transition-all text-white hover:opacity-90";
-    if (link.specialOffer)
-      return "text-sm font-bold px-3 py-1.5 rounded-full shadow-sm transition-all text-white hover:opacity-90";
-    if (link.referEarn)
-      return "text-sm font-bold px-3 py-1.5 rounded-full shadow-sm transition-all text-white hover:opacity-90";
-    if (link.highlight)
-      return "bg-teal-500 text-white text-sm font-medium px-3 py-1.5 rounded-full hover:bg-teal-600 shadow-sm transition-colors";
-    return "text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors";
-  };
-
-  const getLinkStyle = (link: NavLink): React.CSSProperties | undefined => {
-    if (link.flashSale)
-      return {
-        background: "linear-gradient(135deg, #ea580c, #dc2626)",
-        boxShadow: "0 2px 8px rgba(220,38,38,0.35)",
-      };
-    if (link.specialOffer)
-      return {
-        background: "linear-gradient(135deg, #d97706, #b45309)",
-        boxShadow: "0 2px 8px rgba(180,83,9,0.35)",
-      };
-    if (link.referEarn)
-      return {
-        background: "linear-gradient(135deg, #0d9488, #059669)",
-        boxShadow: "0 2px 8px rgba(5,150,105,0.35)",
-      };
-    return undefined;
+    const el = document.getElementById("contact");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -128,24 +49,15 @@ export function Header({ onAdminClick, bannerHeight = 0 }: HeaderProps) {
             </span>
           </a>
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-3 xl:gap-4">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                data-ocid="header.link"
-                onClick={() => handleNavClick(link)}
-                className={getLinkClass(link)}
-                style={getLinkStyle(link)}
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-
-          {/* Right actions */}
-          <div className="hidden lg:flex items-center gap-3">
+          {/* Desktop right actions */}
+          <div className="hidden lg:flex items-center gap-4">
+            <a
+              href="#contact"
+              className="text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors"
+              data-ocid="header.link"
+            >
+              Contact
+            </a>
             <a
               href="tel:+919160393773"
               className="flex items-center gap-1.5 text-sm text-teal-600 font-medium hover:text-teal-700"
@@ -191,26 +103,13 @@ export function Header({ onAdminClick, bannerHeight = 0 }: HeaderProps) {
             className="lg:hidden bg-white border-t border-gray-100 px-4 pb-4"
           >
             <nav className="flex flex-col gap-3 pt-3">
-              {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => handleNavClick(link)}
-                  className={
-                    link.flashSale
-                      ? "text-sm font-bold text-orange-600 py-1"
-                      : link.specialOffer
-                        ? "text-sm font-bold text-amber-600 py-1"
-                        : link.referEarn
-                          ? "text-sm font-bold text-teal-600 py-1"
-                          : link.highlight
-                            ? "text-sm font-semibold text-teal-600 py-1"
-                            : "text-sm font-medium text-gray-700 hover:text-teal-600 py-1"
-                  }
-                >
-                  {link.label}
-                </a>
-              ))}
+              <button
+                type="button"
+                onClick={scrollToContact}
+                className="text-left text-sm font-medium text-gray-700 hover:text-teal-600 py-1"
+              >
+                Contact
+              </button>
               <a
                 href="tel:+919160393773"
                 className="flex items-center gap-1.5 text-sm text-teal-600 font-medium py-1"
