@@ -89,7 +89,7 @@ export function HeroScene({ onExploreClick }: { onExploreClick: () => void }) {
         className="absolute top-20 left-0 right-0 z-20 bg-white/10 backdrop-blur-md border-y border-white/20"
       >
         <div
-          className="flex items-start gap-3 overflow-x-auto py-2 px-4 sm:px-8"
+          className="flex items-start justify-center gap-3 overflow-x-auto py-2 px-4 sm:px-8"
           style={
             {
               scrollbarWidth: "none",
