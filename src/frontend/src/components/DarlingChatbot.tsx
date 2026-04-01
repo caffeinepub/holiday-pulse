@@ -329,6 +329,25 @@ function getResponse(intent: string, lang: LangCode): string {
   return bucket[lang] || bucket.default || RESPONSES.default.en;
 }
 
+async function translateText(
+  text: string,
+  targetLang: string,
+): Promise<string> {
+  if (targetLang === "en") return text;
+  try {
+    const res = await fetch(
+      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|${targetLang}`,
+    );
+    const data = await res.json();
+    if (data?.responseData?.translatedText) {
+      return data.responseData.translatedText;
+    }
+  } catch {
+    // fall back to original
+  }
+  return text;
+}
+
 function detectIntent(msg: string): string {
   const m = msg.toLowerCase();
   if (/hello|hi\b|hey|namaste|नमस्ते|help|yatrik/.test(m)) return "greeting";
@@ -353,6 +372,7 @@ interface Message {
   id: string;
   from: "user" | "bot";
   text: string;
+  translating?: boolean;
 }
 
 export default function YatrikChatbot() {
@@ -374,7 +394,7 @@ export default function YatrikChatbot() {
   // biome-ignore lint/correctness/useExhaustiveDependencies: intentional
   useEffect(() => {
     if (open && messages.length === 0) {
-      addBotMessage(getResponse("greeting", lang));
+      addBotMessage(getResponse("greeting", "en"), lang);
     }
   }, [open]);
 
@@ -398,12 +418,34 @@ export default function YatrikChatbot() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  function addBotMessage(text: string) {
-    setMessages((prev) => [
-      ...prev,
-      { id: Date.now().toString(), from: "bot", text },
-    ]);
-    if (!muted) speak(text);
+  async function addBotMessage(englishText: string, targetLang?: string) {
+    const resolvedLang = targetLang ?? lang;
+    const bucket = Object.values(RESPONSES).find((b) =>
+      Object.values(b).includes(englishText),
+    );
+    const hasTranslation = bucket ? resolvedLang in bucket : false;
+    const needsTranslation = resolvedLang !== "en" && !hasTranslation;
+
+    if (needsTranslation) {
+      const id = Date.now().toString();
+      setMessages((prev) => [
+        ...prev,
+        { id, from: "bot", text: "🌐 Translating...", translating: true },
+      ]);
+      const translated = await translateText(englishText, resolvedLang);
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === id ? { ...m, text: translated, translating: false } : m,
+        ),
+      );
+      if (!muted) speak(translated);
+    } else {
+      setMessages((prev) => [
+        ...prev,
+        { id: Date.now().toString(), from: "bot", text: englishText },
+      ]);
+      if (!muted) speak(englishText);
+    }
   }
 
   function speak(text: string) {
@@ -417,7 +459,7 @@ export default function YatrikChatbot() {
     }
   }
 
-  function handleSend() {
+  async function handleSend() {
     const text = input.trim();
     if (!text) return;
     setMessages((prev) => [
@@ -426,7 +468,8 @@ export default function YatrikChatbot() {
     ]);
     setInput("");
     const intent = detectIntent(text);
-    setTimeout(() => addBotMessage(getResponse(intent, lang)), 600);
+    const englishResponse = getResponse(intent, "en");
+    setTimeout(() => addBotMessage(englishResponse, lang), 600);
   }
 
   function handleLangChange(code: LangCode) {
@@ -434,7 +477,8 @@ export default function YatrikChatbot() {
     setShowLangPicker(false);
     setLangSearch("");
     setMessages([]);
-    setTimeout(() => addBotMessage(getResponse("greeting", code)), 100);
+    const englishGreeting = getResponse("greeting", "en");
+    setTimeout(() => addBotMessage(englishGreeting, code), 100);
   }
 
   function startListening() {
@@ -560,7 +604,6 @@ export default function YatrikChatbot() {
                           placeholder="Search language..."
                           value={langSearch}
                           onChange={(e) => setLangSearch(e.target.value)}
-                          /* autoFocus removed */
                         />
                       </div>
                       <div className="overflow-y-auto max-h-52">
@@ -619,7 +662,7 @@ export default function YatrikChatbot() {
                       : d.name.includes("Lakshadweep")
                         ? "lakshadweep"
                         : "northeast";
-                    addBotMessage(getResponse(intent, lang));
+                    addBotMessage(getResponse(intent, "en"), lang);
                   }}
                   className="flex items-center gap-1 bg-white rounded-full px-2 py-1 text-xs text-gray-600 hover:bg-blue-100 whitespace-nowrap shadow-sm transition-colors border border-gray-200"
                 >
@@ -656,13 +699,33 @@ export default function YatrikChatbot() {
                         : "bg-white text-gray-800 shadow-sm border border-gray-100 rounded-bl-sm"
                     }`}
                   >
-                    {msg.text}
-                    {msg.from === "bot" && msg.text.includes("°") && (
-                      <div className="mt-1.5 flex items-center gap-1 text-[10px] text-blue-500">
-                        <MapPin size={10} />
-                        <span>Coordinates shown above</span>
-                      </div>
+                    {msg.translating ? (
+                      <span className="flex items-center gap-1.5 text-gray-400 italic text-xs">
+                        <span
+                          className="inline-block w-2 h-2 rounded-full bg-blue-400 animate-bounce"
+                          style={{ animationDelay: "0ms" }}
+                        />
+                        <span
+                          className="inline-block w-2 h-2 rounded-full bg-blue-400 animate-bounce"
+                          style={{ animationDelay: "150ms" }}
+                        />
+                        <span
+                          className="inline-block w-2 h-2 rounded-full bg-blue-400 animate-bounce"
+                          style={{ animationDelay: "300ms" }}
+                        />
+                        <span>Translating...</span>
+                      </span>
+                    ) : (
+                      msg.text
                     )}
+                    {msg.from === "bot" &&
+                      !msg.translating &&
+                      msg.text.includes("°") && (
+                        <div className="mt-1.5 flex items-center gap-1 text-[10px] text-blue-500">
+                          <MapPin size={10} />
+                          <span>Coordinates shown above</span>
+                        </div>
+                      )}
                   </div>
                 </div>
               ))}

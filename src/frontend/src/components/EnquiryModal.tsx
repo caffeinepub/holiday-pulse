@@ -112,6 +112,7 @@ export function EnquiryModal({
   onClose,
   selectedPackage,
 }: EnquiryModalProps) {
+  const todayStr = new Date().toISOString().split("T")[0];
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -386,6 +387,7 @@ export function EnquiryModal({
                         ? "border-emerald-400 focus:ring-emerald-400"
                         : ""
                   }`}
+                  min={todayStr}
                   data-ocid="enquiry.input"
                 />
                 {/* Date validation feedback */}

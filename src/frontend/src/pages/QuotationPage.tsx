@@ -108,6 +108,7 @@ const initialState = () => ({
 });
 
 export function QuotationPage() {
+  const todayStr = new Date().toISOString().split("T")[0];
   const [form, setForm] = useState(initialState);
   const [copied, setCopied] = useState(false);
   const printRef = useRef<HTMLDivElement>(null);
@@ -557,6 +558,7 @@ export function QuotationPage() {
                   <Input
                     id="tfrom"
                     type="date"
+                    min={todayStr}
                     value={form.travelFrom}
                     onChange={(e) => set("travelFrom", e.target.value)}
                     data-ocid="quotation.input"
@@ -567,6 +569,7 @@ export function QuotationPage() {
                   <Input
                     id="tto"
                     type="date"
+                    min={todayStr}
                     value={form.travelTo}
                     onChange={(e) => set("travelTo", e.target.value)}
                     data-ocid="quotation.input"
