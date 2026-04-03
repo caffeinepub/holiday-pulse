@@ -6,7 +6,7 @@ import {
   createRoute,
   createRouter,
 } from "@tanstack/react-router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BackgroundMusic } from "./components/BackgroundMusic";
 import { ClientsSection } from "./components/ClientsSection";
 import { ContactSection } from "./components/ContactSection";
@@ -37,6 +37,37 @@ import { LandingOfferPage } from "./pages/LandingOfferPage";
 import { QuotationPage } from "./pages/QuotationPage";
 
 const BANNER_HEIGHT = 52; // px — height of the FlashSaleBanner bar
+
+// Inject Google Translate script once globally
+function useGoogleTranslate() {
+  const injected = useRef(false);
+
+  useEffect(() => {
+    if (injected.current) return;
+    injected.current = true;
+
+    // Define callback before loading script
+    (window as any).googleTranslateElementInit = () => {
+      if ((window as any).google?.translate?.TranslateElement) {
+        new (window as any).google.translate.TranslateElement(
+          {
+            pageLanguage: "en",
+            autoDisplay: false,
+            includedLanguages:
+              "af,sq,am,ar,hy,as,ay,az,bm,eu,be,bn,bho,bs,bg,ca,ceb,zh-CN,zh-TW,co,hr,cs,da,dv,doi,nl,eo,et,ee,fil,fi,fr,fy,gl,ka,de,el,gn,gu,ht,ha,haw,he,hi,hmn,hu,is,ig,ilo,id,ga,it,ja,jv,kn,kk,km,rw,gom,ko,kri,ku,ckb,ky,lo,la,lv,ln,lt,lg,lb,mk,mai,mg,ms,ml,mt,mi,mr,mni-Mtei,lus,mn,my,ne,no,ny,or,om,ps,fa,pl,pt,pa,qu,ro,ru,sm,sa,gd,nso,sr,st,sn,sd,si,sk,sl,so,es,su,sw,sv,tl,tg,ta,tt,te,th,ti,ts,tr,tk,ak,uk,ur,ug,uz,vi,cy,xh,yi,yo,zu",
+          },
+          "google_translate_element",
+        );
+      }
+    };
+
+    const script = document.createElement("script");
+    script.src =
+      "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+    script.async = true;
+    document.head.appendChild(script);
+  }, []);
+}
 
 function HomePage() {
   const packagesRef = useRef<HTMLDivElement>(null);
@@ -120,6 +151,8 @@ function HomePage() {
 const rootRoute = createRootRoute({
   component: () => (
     <>
+      {/* Hidden Google Translate widget element — DO NOT remove */}
+      <div id="google_translate_element" style={{ display: "none" }} />
       <Outlet />
       <Toaster />
     </>
@@ -165,6 +198,11 @@ declare module "@tanstack/react-router" {
   }
 }
 
-export default function App() {
+function AppWithTranslate() {
+  useGoogleTranslate();
   return <RouterProvider router={router} />;
+}
+
+export default function App() {
+  return <AppWithTranslate />;
 }

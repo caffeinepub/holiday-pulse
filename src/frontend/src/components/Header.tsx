@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, Palmtree, Phone, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
+import { LanguageSelector } from "./LanguageSelector";
 
 interface HeaderProps {
   onAdminClick: () => void;
@@ -76,6 +77,8 @@ export function Header({ onAdminClick, bannerHeight = 0 }: HeaderProps) {
               <Phone className="w-3.5 h-3.5" />
               +91-91603 93773
             </a>
+            {/* Language selector — immediately to the LEFT of Admin */}
+            <LanguageSelector variant="pill" />
             <Button
               variant="outline"
               size="sm"
@@ -137,6 +140,8 @@ export function Header({ onAdminClick, bannerHeight = 0 }: HeaderProps) {
                 <Phone className="w-3.5 h-3.5" />
                 +91-91603 93773
               </a>
+              {/* Language selector in mobile menu */}
+              <LanguageSelector variant="list" />
               <Button
                 variant="outline"
                 size="sm"
