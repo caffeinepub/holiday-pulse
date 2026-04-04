@@ -1,7 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
-import { LayoutGrid } from "lucide-react";
+import { LayoutGrid, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface DialItem {
   emoji: string;
@@ -20,6 +20,31 @@ function scrollTo(id: string) {
 export function FloatingIconDial() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Detect touch device
+  const isTouchDevice =
+    typeof window !== "undefined" &&
+    ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+
+  // Close when clicking/tapping outside on mobile
+  useEffect(() => {
+    if (!open) return;
+    function handleOutside(e: MouseEvent | TouchEvent) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleOutside);
+    document.addEventListener("touchstart", handleOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleOutside);
+      document.removeEventListener("touchstart", handleOutside);
+    };
+  }, [open]);
 
   const items: DialItem[] = [
     {
@@ -128,12 +153,20 @@ export function FloatingIconDial() {
     },
   ];
 
+  // Desktop: hover to open/close. Mobile: tap toggle button.
+  const hoverProps = isTouchDevice
+    ? {}
+    : {
+        onMouseEnter: () => setOpen(true),
+        onMouseLeave: () => setOpen(false),
+      };
+
   return (
     <div
+      ref={containerRef}
       className="fixed right-0 z-40 flex items-center"
       style={{ top: "50%", transform: "translateY(-50%)" }}
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
+      {...hoverProps}
       data-ocid="floating_dial.panel"
     >
       {/* Icon pills — shoot out to the left */}
@@ -152,27 +185,33 @@ export function FloatingIconDial() {
                   type: "spring",
                   stiffness: 320,
                   damping: 28,
-                  delay: i * 0.045,
+                  delay: i * 0.04,
                 }}
                 onClick={() => {
                   item.action();
                   setOpen(false);
                 }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  item.action();
+                  setOpen(false);
+                }}
                 className={`
-                  flex items-center gap-2 pl-3 pr-4 py-2
+                  flex items-center gap-2 pl-3 pr-4 py-2.5
                   rounded-l-2xl rounded-r-none
                   border-l-4 ${item.borderColor}
                   ${item.color}
-                  shadow-md hover:shadow-lg
-                  transition-transform duration-150 hover:scale-105
+                  shadow-md active:shadow-lg
+                  transition-transform duration-150 active:scale-95
                   text-left whitespace-nowrap
                   cursor-pointer
+                  touch-manipulation
                 `}
               >
                 <span className="text-base leading-none sm:text-lg">
                   {item.emoji}
                 </span>
-                <span className="hidden sm:inline text-sm font-semibold text-gray-700">
+                <span className="text-xs font-semibold text-gray-700 sm:text-sm">
                   {item.label}
                 </span>
               </motion.button>
@@ -185,6 +224,10 @@ export function FloatingIconDial() {
         type="button"
         data-ocid="floating_dial.toggle"
         onClick={() => setOpen((v) => !v)}
+        onTouchEnd={(e) => {
+          e.preventDefault();
+          setOpen((v) => !v);
+        }}
         aria-label={open ? "Close quick access menu" : "Open quick access menu"}
         aria-expanded={open}
         className="
@@ -193,19 +236,25 @@ export function FloatingIconDial() {
           w-10 h-20
           bg-gradient-to-b from-teal-500 to-teal-600
           hover:from-teal-400 hover:to-teal-500
+          active:from-teal-600 active:to-teal-700
           rounded-l-2xl
           shadow-lg hover:shadow-xl
           transition-all duration-200
           cursor-pointer
           border-0
+          touch-manipulation
         "
       >
         <motion.span
-          animate={{ rotate: open ? 45 : 0 }}
+          animate={{ rotate: open ? 90 : 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 25 }}
           className="flex items-center justify-center"
         >
-          <LayoutGrid className="w-5 h-5 text-white" />
+          {open ? (
+            <X className="w-5 h-5 text-white" />
+          ) : (
+            <LayoutGrid className="w-5 h-5 text-white" />
+          )}
         </motion.span>
       </button>
     </div>
