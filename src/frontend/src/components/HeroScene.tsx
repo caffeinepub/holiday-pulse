@@ -1,23 +1,28 @@
 import { motion } from "motion/react";
 
-const QUICK_LINKS = [
+export const QUICK_LINKS = [
   {
     label: "Plan My Trip",
     href: "#trip-finder",
     icon: "/assets/generated/icon-plan-trip-transparent.dim_120x120.png",
     color: "from-sky-400 to-blue-600",
+    dotColor: "bg-sky-400",
+    external: false,
   },
   {
     label: "Flash Sale",
     href: "#flash-sale",
     icon: "/assets/generated/icon-flash-sale-transparent.dim_120x120.png",
     color: "from-orange-400 to-red-600",
+    dotColor: "bg-orange-400",
+    external: false,
   },
   {
     label: "Special Offer",
     href: "/offer",
     icon: "/assets/generated/icon-special-offer-transparent.dim_120x120.png",
     color: "from-amber-400 to-yellow-600",
+    dotColor: "bg-amber-400",
     external: true,
   },
   {
@@ -25,30 +30,40 @@ const QUICK_LINKS = [
     href: "#refer-earn",
     icon: "/assets/generated/icon-refer-earn-transparent.dim_120x120.png",
     color: "from-emerald-400 to-green-600",
+    dotColor: "bg-emerald-400",
+    external: false,
   },
   {
     label: "Gallery",
     href: "#gallery",
     icon: "/assets/generated/icon-gallery-transparent.dim_120x120.png",
     color: "from-violet-400 to-purple-600",
+    dotColor: "bg-violet-400",
+    external: false,
   },
   {
     label: "Reviews",
     href: "#reviews",
     icon: "/assets/generated/icon-reviews-transparent.dim_120x120.png",
     color: "from-pink-400 to-rose-600",
+    dotColor: "bg-pink-400",
+    external: false,
   },
   {
     label: "Videos",
     href: "#video-testimonials",
     icon: "/assets/generated/icon-videos-transparent.dim_120x120.png",
     color: "from-cyan-400 to-teal-600",
+    dotColor: "bg-cyan-400",
+    external: false,
   },
   {
     label: "Blog",
     href: "#travel-blog",
     icon: "/assets/generated/icon-blog-transparent.dim_120x120.png",
     color: "from-lime-400 to-emerald-600",
+    dotColor: "bg-lime-400",
+    external: false,
   },
 ];
 
@@ -57,6 +72,7 @@ function scrollToSection(id: string) {
   if (el) el.scrollIntoView({ behavior: "smooth" });
 }
 
+// ─── HeroScene ───────────────────────────────────────────────────────────────
 export function HeroScene({ onExploreClick }: { onExploreClick: () => void }) {
   const scrollToCruise = () => {
     const el = document.getElementById("packages");
@@ -81,62 +97,8 @@ export function HeroScene({ onExploreClick }: { onExploreClick: () => void }) {
         <div className="absolute inset-0 bg-black/30" />
       </div>
 
-      {/* Quick Links Icon Bar — top section, below navbar */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.4 }}
-        className="absolute top-20 left-0 right-0 z-20 bg-white/10 backdrop-blur-md border-y border-white/20"
-      >
-        <div
-          className="flex items-start justify-center gap-3 overflow-x-auto py-2 px-4 sm:px-8"
-          style={
-            {
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-              WebkitOverflowScrolling: "touch",
-              scrollSnapType: "x mandatory",
-            } as React.CSSProperties
-          }
-        >
-          {QUICK_LINKS.map(({ label, href, icon, color, external }, i) => (
-            <motion.button
-              key={label}
-              type="button"
-              onClick={() => {
-                if (external) {
-                  window.location.href = href;
-                } else {
-                  scrollToSection(href.slice(1));
-                }
-              }}
-              initial={{ opacity: 0, y: -16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.5 + i * 0.07 }}
-              whileHover={{ scale: 1.08, y: 4 }}
-              whileTap={{ scale: 0.95 }}
-              style={{ scrollSnapAlign: "start" }}
-              className="flex-shrink-0 flex flex-col items-center gap-1.5 group cursor-pointer bg-transparent border-0 p-0"
-            >
-              <div
-                className={`w-12 h-12 sm:w-14 sm:h-14 rounded-3xl bg-gradient-to-br ${color} backdrop-blur-md border border-white/30 shadow-lg flex items-center justify-center overflow-hidden transition-all duration-200 group-hover:shadow-xl group-hover:border-white/60`}
-              >
-                <img
-                  src={icon}
-                  alt={label}
-                  className="w-8 h-8 sm:w-9 sm:h-9 object-contain drop-shadow-md"
-                />
-              </div>
-              <span className="text-white text-[10px] font-semibold text-center leading-tight drop-shadow-md max-w-[52px] sm:max-w-[60px] whitespace-nowrap">
-                {label}
-              </span>
-            </motion.button>
-          ))}
-        </div>
-      </motion.div>
-
       {/* Floating stat chips - top right */}
-      <div className="absolute top-48 right-4 sm:right-8 z-10 flex flex-col gap-3">
+      <div className="absolute top-24 right-4 sm:right-8 z-10 flex flex-col gap-3">
         {[
           { label: "🏝️ 3 Island Destinations", delay: 0.8 },
           { label: "🚢 Cruise Packages Available", delay: 1.0 },

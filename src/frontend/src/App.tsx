@@ -17,6 +17,7 @@ import { FeaturedCruiseBanner } from "./components/FeaturedCruiseBanner";
 import { FlashSaleBanner } from "./components/FlashSaleBanner";
 import { FlashSaleSection } from "./components/FlashSaleSection";
 import { FlickerBookSection } from "./components/FlickerBookSection";
+import { FloatingIconDial } from "./components/FloatingIconDial";
 import { Footer } from "./components/Footer";
 import { GallerySection } from "./components/GallerySection";
 import { HappyClientsPhotoWall } from "./components/HappyClientsPhotoWall";
@@ -109,7 +110,11 @@ function HomePage() {
       />
 
       <main>
+        {/* Hero section — no icons inside, no overlapping */}
         <HeroScene onExploreClick={scrollToPackages} />
+
+        {/* Icon quick-access bar — below the hero, in normal document flow */}
+
         <FlashSaleSection onBookNow={handleFlashSaleBookNow} />
         <FeaturedCruiseBanner />
         <TripFinder />
@@ -135,6 +140,8 @@ function HomePage() {
         selectedPackage={selectedPkg}
       />
       {/* Floating ambient music player — bottom-left */}
+      {/* Floating icon speed-dial — fixed right side, z-40 */}
+      <FloatingIconDial />
       <BackgroundMusic />
       {/* YATRIK chatbot — bottom-right */}
       <YatrikChatbot />

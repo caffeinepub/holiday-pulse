@@ -520,6 +520,15 @@ export default function YatrikChatbot() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
+  // Open chatbot when FloatingIconDial "Chat Now" is clicked
+  useEffect(() => {
+    function handleOpenYatrik() {
+      setOpen(true);
+    }
+    window.addEventListener("openYatrik", handleOpenYatrik);
+    return () => window.removeEventListener("openYatrik", handleOpenYatrik);
+  }, []);
+
   async function addBotMessage(
     englishText: string,
     targetLang?: string,
