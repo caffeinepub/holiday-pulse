@@ -110,10 +110,8 @@ function HomePage() {
       />
 
       <main>
-        {/* Hero section — no icons inside, no overlapping */}
+        {/* Hero section — clean, no overlapping icons */}
         <HeroScene onExploreClick={scrollToPackages} />
-
-        {/* Icon quick-access bar — below the hero, in normal document flow */}
 
         <FlashSaleSection onBookNow={handleFlashSaleBookNow} />
         <FeaturedCruiseBanner />
@@ -140,8 +138,6 @@ function HomePage() {
         selectedPackage={selectedPkg}
       />
       {/* Floating ambient music player — bottom-left */}
-      {/* Floating icon speed-dial — fixed right side, z-40 */}
-      <FloatingIconDial />
       <BackgroundMusic />
       {/* YATRIK chatbot — bottom-right */}
       <YatrikChatbot />
@@ -151,6 +147,8 @@ function HomePage() {
       <SocialProofToast />
       {/* Exit intent popup */}
       <ExitIntentPopup />
+      {/* Floating icon dial — right edge, all navigation icons hidden until hover/tap */}
+      <FloatingIconDial />
     </div>
   );
 }

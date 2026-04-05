@@ -391,12 +391,6 @@ export function TripFinder() {
     }, 120);
   };
 
-  const scrollToFinder = () => {
-    document
-      .getElementById("trip-finder")
-      ?.scrollIntoView({ behavior: "smooth" });
-  };
-
   const reasons = matchedPackage
     ? getPersonalizedReasons(answers, matchedPackage)
     : [];
@@ -436,30 +430,6 @@ export function TripFinder() {
           box-shadow: 0 8px 32px rgba(47,167,160,0.25);
         }
       `}</style>
-
-      {/* Floating Plan My Trip Pill */}
-      <div
-        style={{
-          position: "fixed",
-          left: 0,
-          top: "50%",
-          transform: "translateY(-50%)",
-          zIndex: 40,
-        }}
-      >
-        <button
-          type="button"
-          onClick={scrollToFinder}
-          data-ocid="trip_finder.open_modal_button"
-          style={{
-            writingMode: "vertical-rl",
-            transform: "rotate(180deg)",
-          }}
-          className="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 text-white text-xs font-bold tracking-widest uppercase px-3 py-5 shadow-xl cursor-pointer transition-colors rounded-tr-xl rounded-br-xl select-none"
-        >
-          ✈ Plan My Trip
-        </button>
-      </div>
 
       {/* Main Section */}
       <section
