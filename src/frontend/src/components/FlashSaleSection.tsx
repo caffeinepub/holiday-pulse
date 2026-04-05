@@ -1,4 +1,4 @@
-import { ArrowRight, Clock, Tag, Zap } from "lucide-react";
+import { ArrowRight, Tag, Zap } from "lucide-react";
 import { motion } from "motion/react";
 import { useFlashSaleCountdown } from "../hooks/useFlashSaleCountdown";
 
@@ -47,23 +47,14 @@ const DEALS = [
   },
 ];
 
-const TIMER_SEGMENTS = ["hours", "minutes", "seconds"] as const;
-
 interface FlashSaleSectionProps {
   onBookNow: () => void;
 }
 
 export function FlashSaleSection({ onBookNow }: FlashSaleSectionProps) {
-  const { hours, minutes, seconds, expired } = useFlashSaleCountdown();
+  const { expired } = useFlashSaleCountdown();
 
   if (expired) return null;
-
-  const fmt = (n: number) => n.toString().padStart(2, "0");
-  const timerValues = {
-    hours: fmt(hours),
-    minutes: fmt(minutes),
-    seconds: fmt(seconds),
-  };
 
   const handleDealClick = (dest: string) => {
     window.dispatchEvent(
@@ -144,30 +135,9 @@ export function FlashSaleSection({ onBookNow }: FlashSaleSectionProps) {
               Deals
             </span>
           </h2>
-          <p className="text-lg text-slate-300 mb-6">
+          <p className="text-lg text-slate-300">
             Book now — prices go back up when the clock hits zero!
           </p>
-
-          {/* Big countdown */}
-          <div className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-sm border border-white/10 px-6 py-3 rounded-2xl">
-            <Clock className="w-5 h-5 text-orange-400" />
-            <span className="text-slate-300 text-sm font-medium">
-              Sale ends in
-            </span>
-            <div className="flex items-center font-mono font-black text-2xl">
-              {TIMER_SEGMENTS.map((seg, idx) => (
-                <span key={seg} className="flex items-center">
-                  {idx > 0 && <span className="text-slate-500 mx-1">:</span>}
-                  <span
-                    className="text-white bg-white/10 px-2 py-1 rounded-lg tabular-nums"
-                    style={{ textShadow: "0 0 20px rgba(249,115,22,0.8)" }}
-                  >
-                    {timerValues[seg]}
-                  </span>
-                </span>
-              ))}
-            </div>
-          </div>
         </motion.div>
 
         {/* Deal cards */}
@@ -225,26 +195,17 @@ export function FlashSaleSection({ onBookNow }: FlashSaleSectionProps) {
                 </ul>
 
                 {/* Pricing */}
-                <div className="flex items-end justify-between mb-5">
-                  <div>
-                    <p className="text-slate-500 text-sm line-through">
-                      ₹{deal.originalPrice.toLocaleString("en-IN")}
-                    </p>
-                    <p
-                      className="text-3xl font-black"
-                      style={{ color: "#34d399" }}
-                    >
-                      ₹{deal.discountedPrice.toLocaleString("en-IN")}
-                    </p>
-                    <p className="text-slate-400 text-xs">per person onwards</p>
-                  </div>
-                  {/* Mini countdown */}
-                  <div className="text-right">
-                    <p className="text-slate-500 text-xs mb-1">Ends in</p>
-                    <p className="font-mono text-xs font-bold text-orange-400 bg-orange-500/10 px-2 py-1 rounded-lg">
-                      {fmt(hours)}:{fmt(minutes)}:{fmt(seconds)}
-                    </p>
-                  </div>
+                <div className="mb-5">
+                  <p className="text-slate-500 text-sm line-through">
+                    ₹{deal.originalPrice.toLocaleString("en-IN")}
+                  </p>
+                  <p
+                    className="text-3xl font-black"
+                    style={{ color: "#34d399" }}
+                  >
+                    ₹{deal.discountedPrice.toLocaleString("en-IN")}
+                  </p>
+                  <p className="text-slate-400 text-xs">per person onwards</p>
                 </div>
 
                 {/* CTA */}

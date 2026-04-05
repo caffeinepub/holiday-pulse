@@ -19,8 +19,6 @@ import { FlashSaleSection } from "./components/FlashSaleSection";
 import { FlickerBookSection } from "./components/FlickerBookSection";
 import { FloatingIconDial } from "./components/FloatingIconDial";
 import { Footer } from "./components/Footer";
-import { GallerySection } from "./components/GallerySection";
-import { HappyClientsPhotoWall } from "./components/HappyClientsPhotoWall";
 import { Header } from "./components/Header";
 import { HeroScene } from "./components/HeroScene";
 import { PackagesSection } from "./components/PackagesSection";
@@ -120,9 +118,7 @@ function HomePage() {
         <div ref={packagesRef} id="packages">
           <PackagesSection onBookNow={handleBookNow} />
         </div>
-        <GallerySection />
         <FlickerBookSection />
-        <HappyClientsPhotoWall />
         <VideoTestimonialsSection />
         <ClientsSection />
         <WhyChooseSection />

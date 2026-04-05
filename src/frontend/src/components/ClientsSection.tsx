@@ -116,6 +116,29 @@ const testimonials: Testimonial[] = [
   },
 ];
 
+const TRIP_PHOTOS = [
+  {
+    src: "/assets/generated/happy-clients-andaman.dim_400x300.jpg",
+    label: "Andaman",
+    color: "bg-teal-600",
+  },
+  {
+    src: "/assets/generated/happy-clients-lakshadweep.dim_400x300.jpg",
+    label: "Lakshadweep",
+    color: "bg-blue-600",
+  },
+  {
+    src: "/assets/generated/happy-clients-northeast.dim_400x300.jpg",
+    label: "North-East",
+    color: "bg-emerald-600",
+  },
+  {
+    src: "/assets/generated/happy-clients-cruise.dim_400x300.jpg",
+    label: "Andaman Cruise",
+    color: "bg-indigo-600",
+  },
+];
+
 function StarRating({ rating }: { rating: number }) {
   return (
     <div className="flex gap-0.5">
@@ -180,30 +203,11 @@ export function ClientsSection() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-full px-4 py-1.5 mb-4"
-          >
-            <div className="flex gap-0.5">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <Star
-                  key={i}
-                  className="w-3.5 h-3.5 fill-amber-400 text-amber-400"
-                />
-              ))}
-            </div>
-            <span className="text-amber-700 font-semibold text-sm">
-              4.9/5 from 500+ reviews
-            </span>
-          </motion.div>
+        <div className="text-center mb-10">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
             className="text-3xl md:text-4xl font-extrabold text-navy-800 mb-3"
           >
             What Our Clients Say
@@ -212,12 +216,40 @@ export function ClientsSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
+            transition={{ delay: 0.1 }}
             className="text-gray-500 text-lg"
           >
-            2000+ travelers have trusted Holiday Pulse for their dream vacations
+            Real experiences from travelers who chose Holiday Pulse
           </motion.p>
         </div>
+
+        {/* Happy Clients Photo Strip */}
+        <motion.div
+          className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.15 }}
+        >
+          {TRIP_PHOTOS.map((photo) => (
+            <div
+              key={photo.label}
+              className="relative overflow-hidden rounded-xl group"
+            >
+              <img
+                src={photo.src}
+                alt={`Happy clients in ${photo.label}`}
+                className="w-full h-32 object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <span
+                className={`absolute bottom-2 left-2 ${photo.color} text-white text-xs font-bold px-2 py-0.5 rounded-full`}
+              >
+                {photo.label}
+              </span>
+            </div>
+          ))}
+        </motion.div>
 
         {/* Carousel */}
         <div className="relative">

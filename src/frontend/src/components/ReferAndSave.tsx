@@ -198,7 +198,7 @@ export function ReferAndSave() {
               🏆 Top Referrers This Month
             </h3>
             <p className="text-white/60 text-xs text-center mb-4">
-              Earn ₹500 for every friend who books a trip
+              This month&apos;s top sharers
             </p>
             <div className="space-y-2">
               {SEED_LEADERS.map((leader, i) => (

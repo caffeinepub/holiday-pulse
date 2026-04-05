@@ -36,24 +36,11 @@ export function HeroScene({ onExploreClick }: { onExploreClick: () => void }) {
           </p>
         </motion.div>
 
-        {/* Trust badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.9 }}
-          className="flex items-center gap-2 px-5 py-2.5 bg-white/15 backdrop-blur-md border border-white/25 rounded-full shadow-lg"
-        >
-          <span className="text-amber-300 text-base">⭐</span>
-          <span className="text-white text-sm font-semibold">
-            4.9/5 · Trusted by 2000+ Travelers
-          </span>
-        </motion.div>
-
         {/* Hint to use the dial */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 1.4 }}
+          transition={{ duration: 0.6, delay: 1.0 }}
           className="text-white/40 text-xs tracking-wide"
         >
           ← Tap the teal dial on the right to explore

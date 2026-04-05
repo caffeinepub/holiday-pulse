@@ -42,21 +42,6 @@ export function VideoTestimonialsSection() {
       className="py-20 bg-gradient-to-b from-white to-teal-50"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Heading */}
-        <div className="text-center mb-14">
-          <span className="inline-block text-xs font-semibold tracking-widest text-teal-600 uppercase mb-3">
-            Real Experiences
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
-            Hear From Our Happy Travellers
-          </h2>
-          <p className="text-gray-500 max-w-xl mx-auto">
-            Don&apos;t just take our word for it — watch real clients share
-            their Holiday Pulse stories, straight from the destinations you
-            dream about.
-          </p>
-        </div>
-
         {/* Video grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {testimonials.map((t, i) => (
